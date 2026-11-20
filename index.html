@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MBSTU Cover Page Generator | Lab Report &amp; Assignment Cover Page (MBSTU)</title>
 
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Free online tool for MBSTU students to create and download A4 vector PDF cover pages for lab reports and assignments. Mawlana Bhashani Science and Technology University logo included.">
-  <meta name="keywords" content="MBSTU, Mawlana Bhashani Science and Technology University, MBSTU logo, MBSTU cover page, lab report cover page, assignment cover page, MBSTU lab report, MBSTU assignment cover, cover page generator, Textile Engineering MBSTU">
+  <meta name="description"
+    content="Free online tool for MBSTU students to create and download A4 vector PDF cover pages for lab reports and assignments. Mawlana Bhashani Science and Technology University logo included.">
+  <meta name="keywords"
+    content="MBSTU, Mawlana Bhashani Science and Technology University, MBSTU logo, MBSTU cover page, lab report cover page, assignment cover page, MBSTU lab report, MBSTU assignment cover, cover page generator, Textile Engineering MBSTU">
   <link rel="canonical" href="https://mbstucover.netlify.app/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="author" content="Nomun Sheikh">
   <meta name="theme-color" content="#0f172a">
-  <meta name="google-site-verification" content="REPLACE_WITH_CODE">
+  <meta name="google-site-verification" content="V_8hHKhVHKA5ceF9bBP512xXcnPasueWdYV4UqgbahA">
+
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="MBSTU Cover Page Generator | Lab Report &amp; Assignment Cover Page (MBSTU)">
-  <meta property="og:description" content="Free online tool for MBSTU students to create and download A4 vector PDF cover pages for lab reports and assignments. Mawlana Bhashani Science and Technology University logo included.">
+  <meta property="og:description"
+    content="Free online tool for MBSTU students to create and download A4 vector PDF cover pages for lab reports and assignments. Mawlana Bhashani Science and Technology University logo included.">
   <meta property="og:url" content="https://mbstucover.netlify.app/">
   <meta property="og:site_name" content="MBSTU Cover Page Generator">
   <meta property="og:image" content="https://mbstucover.netlify.app/media/mbstu-lab-report-cover-sample.jpg">
@@ -27,7 +32,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MBSTU Cover Page Generator | Lab Report &amp; Assignment Cover Page (MBSTU)">
-  <meta name="twitter:description" content="Free online tool for MBSTU students to create and download A4 vector PDF cover pages for lab reports and assignments.">
+  <meta name="twitter:description"
+    content="Free online tool for MBSTU students to create and download A4 vector PDF cover pages for lab reports and assignments.">
   <meta name="twitter:image" content="https://mbstucover.netlify.app/media/mbstu-lab-report-cover-sample.jpg">
 
   <!-- Preconnect to CDNs & Fonts -->
@@ -35,7 +41,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.tailwindcss.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <!-- JSON-LD Structured Data: WebApplication, WebSite & FAQPage -->
   <script type="application/ld+json">
@@ -179,18 +186,36 @@
 
     body {
       font-family: 'Inter', system-ui, sans-serif;
-      background-color: #0f172a; /* Slate 900 */
-      color: #e2e8f0;            /* Slate 200 */
+      background-color: #0f172a;
+      /* Slate 900 */
+      color: #e2e8f0;
+      /* Slate 200 */
     }
 
     /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
 
     /* Touch target comfort */
-    button, input, select, textarea {
+    button,
+    input,
+    select,
+    textarea {
       min-height: 44px;
     }
 
@@ -201,11 +226,13 @@
       color: #f1f5f9;
       transition: all 0.2s ease;
     }
+
     .form-input:focus {
       outline: none;
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
+
     .form-input.input-error {
       border-color: #ef4444 !important;
       background-color: rgba(239, 68, 68, 0.05) !important;
@@ -231,6 +258,7 @@
       opacity: 0;
       pointer-events: none;
     }
+
     #toast.toast-show {
       transform: translateY(0);
       opacity: 1;
@@ -241,9 +269,17 @@
     .step-section {
       animation: fadeIn 0.25s ease-out;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Print only A4 preview */
@@ -252,10 +288,21 @@
         background: #ffffff !important;
         color: #000000 !important;
       }
-      header, nav, #progressBar, #stepContainer, footer, #toast, #aboutModal, .no-print {
+
+      header,
+      nav,
+      #progressBar,
+      #stepContainer,
+      footer,
+      #toast,
+      #aboutModal,
+      .no-print {
         display: none !important;
       }
-      #previewSection, #previewContainer, .preview-outer {
+
+      #previewSection,
+      #previewContainer,
+      .preview-outer {
         display: block !important;
         margin: 0 !important;
         padding: 0 !important;
@@ -263,6 +310,7 @@
         height: auto !important;
         overflow: visible !important;
       }
+
       .a4-sheet {
         box-shadow: none !important;
         margin: 0 auto !important;
@@ -274,16 +322,20 @@
     }
   </style>
 </head>
+
 <body class="min-h-screen flex flex-col antialiased">
   <!-- Noscript Fallback for Search Engines and Non-JS Browsers -->
   <noscript>
     <div class="bg-amber-950/90 border-b border-amber-800 text-amber-200 px-4 py-3 text-sm text-center">
-      <strong>JavaScript is currently disabled.</strong> The MBSTU Cover Page Generator requires JavaScript to interactively generate and download PDF cover pages. You can still read our <a href="#about-page" class="underline font-semibold hover:text-white">guide, features, and FAQ below</a>.
+      <strong>JavaScript is currently disabled.</strong> The MBSTU Cover Page Generator requires JavaScript to
+      interactively generate and download PDF cover pages. You can still read our <a href="#about-page"
+        class="underline font-semibold hover:text-white">guide, features, and FAQ below</a>.
     </div>
   </noscript>
 
   <!-- ==================== TOAST NOTIFICATION ==================== -->
-  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-xl shadow-2xl text-sm font-medium border">
+  <div id="toast"
+    class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-xl shadow-2xl text-sm font-medium border">
     <span id="toastIcon">✓</span>
     <span id="toastMessage">Saved automatically</span>
   </div>
@@ -291,16 +343,18 @@
   <!-- ==================== HEADER ==================== -->
   <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      
+
       <!-- Logo & App Title -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-lg shadow-inner">
+        <div
+          class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-lg shadow-inner">
           📄
         </div>
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-base sm:text-lg font-bold text-white tracking-tight">MBSTU Cover Page Generator</h1>
-            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">v3.0</span>
+            <span
+              class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">v3.0</span>
           </div>
           <p class="text-xs text-slate-400 hidden sm:block">Lab report cover pages made in under 2 minutes</p>
         </div>
@@ -309,23 +363,30 @@
       <!-- Quick Action Buttons -->
       <div class="flex items-center gap-2">
         <!-- Auto save indicator -->
-        <span id="autoSaveBadge" class="hidden sm:inline-flex items-center gap-1.5 text-xs text-emerald-400 font-medium px-2.5 py-1 rounded-md bg-emerald-950/40 border border-emerald-800/40">
+        <span id="autoSaveBadge"
+          class="hidden sm:inline-flex items-center gap-1.5 text-xs text-emerald-400 font-medium px-2.5 py-1 rounded-md bg-emerald-950/40 border border-emerald-800/40">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
           Saved ✓
         </span>
 
         <!-- Try Example Data -->
-        <button id="btnTryExample" type="button" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg transition" title="Fill with sample course, student and lab data">
+        <button id="btnTryExample" type="button"
+          class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg transition"
+          title="Fill with sample course, student and lab data">
           💡 Try example
         </button>
 
         <!-- Start Fresh -->
-        <button id="btnStartFresh" type="button" class="text-xs sm:text-sm font-medium text-red-400 hover:text-red-300 bg-red-950/30 hover:bg-red-900/40 border border-red-900/40 px-2.5 py-1.5 rounded-lg transition" title="Clear all data and start fresh">
+        <button id="btnStartFresh" type="button"
+          class="text-xs sm:text-sm font-medium text-red-400 hover:text-red-300 bg-red-950/30 hover:bg-red-900/40 border border-red-900/40 px-2.5 py-1.5 rounded-lg transition"
+          title="Clear all data and start fresh">
           🗑️ Clear
         </button>
 
         <!-- About Modal Trigger -->
-        <button id="btnOpenAbout" type="button" class="text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 p-2 rounded-lg hover:bg-slate-800 transition" title="About & Developer Info">
+        <button id="btnOpenAbout" type="button"
+          class="text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 p-2 rounded-lg hover:bg-slate-800 transition"
+          title="About & Developer Info">
           ℹ️
         </button>
       </div>
@@ -339,37 +400,53 @@
       <div class="grid grid-cols-4 gap-1 sm:gap-2">
 
         <!-- Step 1 Tab -->
-        <button type="button" class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-blue-600/10 border border-blue-500/40 text-blue-400" data-step="1">
-          <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-blue-600 text-white shrink-0">1</span>
+        <button type="button"
+          class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-blue-600/10 border border-blue-500/40 text-blue-400"
+          data-step="1">
+          <span
+            class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-blue-600 text-white shrink-0">1</span>
           <div class="truncate">
-            <span class="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider hidden sm:block">Step 1</span>
+            <span class="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider hidden sm:block">Step
+              1</span>
             <span class="block text-xs sm:text-sm font-semibold truncate text-white">Course</span>
           </div>
         </button>
 
         <!-- Step 2 Tab -->
-        <button type="button" class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700" data-step="2">
-          <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2</span>
+        <button type="button"
+          class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700"
+          data-step="2">
+          <span
+            class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2</span>
           <div class="truncate">
-            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step 2</span>
+            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step
+              2</span>
             <span class="block text-xs sm:text-sm font-semibold truncate">People</span>
           </div>
         </button>
 
         <!-- Step 3 Tab -->
-        <button type="button" class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700" data-step="3">
-          <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">3</span>
+        <button type="button"
+          class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700"
+          data-step="3">
+          <span
+            class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">3</span>
           <div class="truncate">
-            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step 3</span>
+            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step
+              3</span>
             <span class="block text-xs sm:text-sm font-semibold truncate" id="step3TabLabel">Reports</span>
           </div>
         </button>
 
         <!-- Step 4 Tab -->
-        <button type="button" class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700" data-step="4">
-          <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">4</span>
+        <button type="button"
+          class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700"
+          data-step="4">
+          <span
+            class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">4</span>
           <div class="truncate">
-            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step 4</span>
+            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step
+              4</span>
             <span class="block text-xs sm:text-sm font-semibold truncate">Download</span>
           </div>
         </button>
@@ -385,11 +462,14 @@
     <section id="step1" class="step-section space-y-6">
 
       <!-- Friendly Intro / "What is this?" -->
-      <div class="bg-gradient-to-r from-blue-950/40 to-slate-900 border border-blue-900/40 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
+      <div
+        class="bg-gradient-to-r from-blue-950/40 to-slate-900 border border-blue-900/40 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
         <span class="text-2xl shrink-0">👋</span>
         <div>
-          <h2 class="text-sm sm:text-base font-semibold text-blue-200">Welcome! Create your lab report cover pages in 4 quick steps.</h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">Fill in your course details once. In Step 3 you can generate multiple lab reports at once with different lab numbers and topics.</p>
+          <h2 class="text-sm sm:text-base font-semibold text-blue-200">Welcome! Create your lab report cover pages in 4
+            quick steps.</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">Fill in your course details once. In Step 3 you can generate
+            multiple lab reports at once with different lab numbers and topics.</p>
         </div>
       </div>
 
@@ -404,7 +484,8 @@
           <label class="block text-sm font-medium text-slate-200 mb-1">
             Course Title <span class="text-red-400">*</span>
           </label>
-          <input type="text" id="courseTitle" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. Textile Testing and Quality Control-III (lab)">
+          <input type="text" id="courseTitle" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm"
+            placeholder="e.g. Textile Testing and Quality Control-III (lab)">
           <p class="text-xs text-slate-400 mt-1">The official full name of the laboratory course.</p>
           <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
         </div>
@@ -415,7 +496,8 @@
             <label class="block text-sm font-medium text-slate-200 mb-1">
               Course Code <span class="text-red-400">*</span>
             </label>
-            <input type="text" id="courseCode" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. TXE 4112">
+            <input type="text" id="courseCode" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm"
+              placeholder="e.g. TXE 4112">
             <p class="text-xs text-slate-400 mt-1">Course code as stated in your syllabus (e.g. TXE 4112).</p>
             <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
           </div>
@@ -423,7 +505,8 @@
             <label class="block text-sm font-medium text-slate-200 mb-1">
               Department <span class="text-red-400">*</span>
             </label>
-            <input type="text" id="department" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. Textile Engineering">
+            <input type="text" id="department" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm"
+              placeholder="e.g. Textile Engineering">
             <p class="text-xs text-slate-400 mt-1">Your academic department name.</p>
             <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
           </div>
@@ -435,7 +518,8 @@
             <label class="block text-sm font-medium text-slate-200 mb-1">
               Academic Session <span class="text-red-400">*</span>
             </label>
-            <input type="text" id="session" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. 2018-19">
+            <input type="text" id="session" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm"
+              placeholder="e.g. 2018-19">
             <p class="text-xs text-slate-400 mt-1">Your enrolled session year.</p>
             <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
           </div>
@@ -475,30 +559,38 @@
           <label class="block text-sm font-medium text-slate-200 mb-1">
             University Logo (PNG or JPG)
           </label>
-          <p class="text-xs text-slate-400 mb-3">Official MBSTU university logo is embedded by default. You can also upload a custom monogram or remove it.</p>
+          <p class="text-xs text-slate-400 mb-3">Official MBSTU university logo is embedded by default. You can also
+            upload a custom monogram or remove it.</p>
 
-          <div class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-slate-900 border border-dashed border-slate-700">
+          <div
+            class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-slate-900 border border-dashed border-slate-700">
             <!-- Logo Preview Thumbnail -->
-            <div id="logoPreviewContainer" class="w-24 h-24 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center p-2 shrink-0 overflow-hidden text-center">
+            <div id="logoPreviewContainer"
+              class="w-24 h-24 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center p-2 shrink-0 overflow-hidden text-center">
               <span id="logoEmptyText" class="text-[11px] text-slate-500 font-medium">No logo uploaded</span>
-              <img id="logoPreviewImg" class="max-w-full max-h-full object-contain hidden" alt="Uploaded logo" width="80" height="80">
+              <img id="logoPreviewImg" class="max-w-full max-h-full object-contain hidden" alt="Uploaded logo"
+                width="80" height="80">
             </div>
 
             <!-- Upload Controls -->
             <div class="flex-1 space-y-2 text-center sm:text-left w-full">
               <div class="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
-                <label for="logoFileInput" class="cursor-pointer inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition shadow-sm active:scale-95">
+                <label for="logoFileInput"
+                  class="cursor-pointer inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition shadow-sm active:scale-95">
                   📁 Choose Logo Image
                 </label>
                 <input type="file" id="logoFileInput" accept="image/png, image/jpeg, image/jpg" class="hidden">
-                <button type="button" id="btnResetDefaultLogo" class="text-xs font-semibold px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 transition hidden">
+                <button type="button" id="btnResetDefaultLogo"
+                  class="text-xs font-semibold px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 transition hidden">
                   ↺ Reset to MBSTU Logo
                 </button>
-                <button type="button" id="btnRemoveLogo" class="text-xs font-semibold px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-red-950/40 text-red-400 border border-slate-700 hover:border-red-900/40 transition hidden">
+                <button type="button" id="btnRemoveLogo"
+                  class="text-xs font-semibold px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-red-950/40 text-red-400 border border-slate-700 hover:border-red-900/40 transition hidden">
                   ✕ Remove Logo
                 </button>
               </div>
-              <p class="text-[11px] text-slate-500">Supported formats: PNG, JPG. Downscaled automatically to preserve memory.</p>
+              <p class="text-[11px] text-slate-500">Supported formats: PNG, JPG. Downscaled automatically to preserve
+                memory.</p>
             </div>
           </div>
         </div>
@@ -531,7 +623,8 @@
 
           <div class="flex flex-col justify-center pt-2 sm:pt-4">
             <label class="inline-flex items-center gap-3 cursor-pointer select-none">
-              <input type="checkbox" id="showBorder" checked class="w-5 h-5 rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-800">
+              <input type="checkbox" id="showBorder" checked
+                class="w-5 h-5 rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-800">
               <span class="text-sm font-medium text-slate-200">Show 10mm Outer Border</span>
             </label>
             <p class="text-xs text-slate-400 mt-1">Draws clean rectangular frame around cover page.</p>
@@ -544,14 +637,16 @@
             <label class="block text-sm font-medium text-slate-200 mb-1">
               University Name Header
             </label>
-            <input type="text" id="uniName" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="MAWLANA BHASHANI SCIENCE AND TECHNOLOGY UNIVERSITY">
+            <input type="text" id="uniName" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm"
+              placeholder="MAWLANA BHASHANI SCIENCE AND TECHNOLOGY UNIVERSITY">
             <p class="text-xs text-slate-400 mt-1">Printed in bold uppercase at top of page.</p>
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-200 mb-1">
               University Address Line
             </label>
-            <input type="text" id="uniAddress" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="Santosh, Tangail-1902">
+            <input type="text" id="uniAddress" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm"
+              placeholder="Santosh, Tangail-1902">
             <p class="text-xs text-slate-400 mt-1">Printed directly below university name.</p>
           </div>
         </div>
@@ -559,7 +654,9 @@
 
       <!-- Navigation Footer -->
       <div class="flex items-center justify-end gap-3 pt-2">
-        <button type="button" class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2" data-target="2">
+        <button type="button"
+          class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2"
+          data-target="2">
           <span>Next: Your Details</span>
           <span>→</span>
         </button>
@@ -581,7 +678,8 @@
             <label class="block text-sm font-medium text-slate-200 mb-1">
               Student Full Name <span class="text-red-400">*</span>
             </label>
-            <input type="text" id="studentName" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm font-medium" placeholder="e.g. Sheikh Nomun">
+            <input type="text" id="studentName" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm font-medium"
+              placeholder="e.g. Sheikh Nomun">
             <p class="text-xs text-slate-400 mt-1">Your official name as registered with university.</p>
             <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
           </div>
@@ -589,7 +687,8 @@
             <label class="block text-sm font-medium text-slate-200 mb-1">
               Student ID / Roll No <span class="text-red-400">*</span>
             </label>
-            <input type="text" id="studentId" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. TE19021">
+            <input type="text" id="studentId" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm"
+              placeholder="e.g. TE19021">
             <p class="text-xs text-slate-400 mt-1">Your student ID or registration number.</p>
             <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
           </div>
@@ -607,7 +706,9 @@
             <label class="block text-sm font-medium text-slate-200 mb-1">
               Instructor Name <span class="text-red-400">*</span>
             </label>
-            <input type="text" id="instructorName" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm font-medium" placeholder="e.g. Dr. Example Name">
+            <input type="text" id="instructorName"
+              class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm font-medium"
+              placeholder="e.g. Dr. Example Name">
             <p class="text-xs text-slate-400 mt-1">Name of the course teacher evaluating the report.</p>
             <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
           </div>
@@ -615,7 +716,8 @@
             <label class="block text-sm font-medium text-slate-200 mb-1">
               Instructor Designation <span class="text-red-400">*</span>
             </label>
-            <input type="text" id="instructorDesignation" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. Lecturer, Assistant Professor">
+            <input type="text" id="instructorDesignation" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm"
+              placeholder="e.g. Lecturer, Assistant Professor">
             <p class="text-xs text-slate-400 mt-1">Official academic rank of the teacher.</p>
             <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
           </div>
@@ -624,11 +726,15 @@
 
       <!-- Navigation Footer -->
       <div class="flex items-center justify-between gap-3 pt-2">
-        <button type="button" class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2" data-target="1">
+        <button type="button"
+          class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2"
+          data-target="1">
           <span>←</span>
           <span>Back: Course</span>
         </button>
-        <button type="button" class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2" data-target="3">
+        <button type="button"
+          class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2"
+          data-target="3">
           <span>Next: Lab Reports</span>
           <span>→</span>
         </button>
@@ -645,17 +751,20 @@
           Select Document Type
         </label>
         <div class="grid grid-cols-2 gap-3 max-w-md">
-          <button type="button" id="docTypeLab" class="doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-md active:scale-95 bg-blue-600/20 border-blue-500 text-white">
+          <button type="button" id="docTypeLab"
+            class="doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-md active:scale-95 bg-blue-600/20 border-blue-500 text-white">
             <span class="text-base">🧪</span>
             <span>Lab Report</span>
           </button>
-          <button type="button" id="docTypeAssignment" class="doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-sm active:scale-95 bg-slate-900 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600">
+          <button type="button" id="docTypeAssignment"
+            class="doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-sm active:scale-95 bg-slate-900 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600">
             <span class="text-base">📝</span>
             <span>Assignment</span>
           </button>
         </div>
         <p id="docTypeHelp" class="text-xs text-slate-400 mt-2.5">
-          Generating cover pages for <strong>Lab Reports</strong> (prints &quot;LAB REPORT&quot;, &quot;Lab report no:&quot;, &quot;Lab report on:&quot;).
+          Generating cover pages for <strong>Lab Reports</strong> (prints &quot;LAB REPORT&quot;, &quot;Lab report
+          no:&quot;, &quot;Lab report on:&quot;).
         </p>
       </div>
 
@@ -663,8 +772,12 @@
       <div class="bg-indigo-950/40 border border-indigo-900/50 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
         <span class="text-xl shrink-0">💡</span>
         <div id="step3TipText" class="text-xs sm:text-sm text-indigo-200 space-y-1">
-          <p><strong class="font-semibold text-white">Student Tip:</strong> Lab numbers are usually written as 01, 02, 03... or 1, 2, 3.</p>
-          <p class="text-indigo-300/80"><strong>Date helper:</strong> If you leave performance or submission dates blank, the cover page will print clean placeholders <code class="bg-indigo-900/50 px-1 py-0.5 rounded text-white">..../..../....</code> so you can write them by hand later.</p>
+          <p><strong class="font-semibold text-white">Student Tip:</strong> Lab numbers are usually written as 01, 02,
+            03... or 1, 2, 3.</p>
+          <p class="text-indigo-300/80"><strong>Date helper:</strong> If you leave performance or submission dates
+            blank, the cover page will print clean placeholders <code
+              class="bg-indigo-900/50 px-1 py-0.5 rounded text-white">..../..../....</code> so you can write them by
+            hand later.</p>
         </div>
       </div>
 
@@ -674,25 +787,32 @@
           <h3 id="quickCreateTitle" class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
             <span>⚡</span> Quick Create Multiple Reports
           </h3>
-          <span id="quickCreateBadge" class="text-[11px] text-blue-300 font-medium px-2 py-0.5 rounded bg-blue-950 border border-blue-800/50">Auto-Generates Sequential Reports</span>
+          <span id="quickCreateBadge"
+            class="text-[11px] text-blue-300 font-medium px-2 py-0.5 rounded bg-blue-950 border border-blue-800/50">Auto-Generates
+            Sequential Reports</span>
         </div>
-        <p id="quickCreateDesc" class="text-xs text-slate-400">Need to generate cover pages for Lab 1 to 5? Set the numbers below and click generate.</p>
+        <p id="quickCreateDesc" class="text-xs text-slate-400">Need to generate cover pages for Lab 1 to 5? Set the
+          numbers below and click generate.</p>
 
         <div class="grid grid-cols-2 sm:grid-cols-12 gap-3 items-end">
           <div class="sm:col-span-3">
             <label id="quickStartLabel" class="block text-xs font-medium text-slate-300 mb-1">From Lab No.</label>
-            <input type="number" id="quickStartNo" value="1" min="1" max="99" class="form-input w-full rounded-xl px-3 py-2 text-sm text-center font-bold">
+            <input type="number" id="quickStartNo" value="1" min="1" max="99"
+              class="form-input w-full rounded-xl px-3 py-2 text-sm text-center font-bold">
           </div>
           <div class="sm:col-span-3">
             <label class="block text-xs font-medium text-slate-300 mb-1">To Lab No.</label>
-            <input type="number" id="quickEndNo" value="3" min="1" max="99" class="form-input w-full rounded-xl px-3 py-2 text-sm text-center font-bold">
+            <input type="number" id="quickEndNo" value="3" min="1" max="99"
+              class="form-input w-full rounded-xl px-3 py-2 text-sm text-center font-bold">
           </div>
           <div class="col-span-2 sm:col-span-4">
             <label class="block text-xs font-medium text-slate-300 mb-1">Shared Topic Prefix (Optional)</label>
-            <input type="text" id="quickSharedTopic" placeholder="e.g. Lab Experiment" class="form-input w-full rounded-xl px-3 py-2 text-sm">
+            <input type="text" id="quickSharedTopic" placeholder="e.g. Lab Experiment"
+              class="form-input w-full rounded-xl px-3 py-2 text-sm">
           </div>
           <div class="col-span-2 sm:col-span-2">
-            <button type="button" id="btnQuickGenerate" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm py-2.5 rounded-xl transition shadow-md active:scale-95">
+            <button type="button" id="btnQuickGenerate"
+              class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm py-2.5 rounded-xl transition shadow-md active:scale-95">
               + Generate
             </button>
           </div>
@@ -705,9 +825,11 @@
           <h3 id="reportsListTitle" class="text-base font-bold text-white flex items-center gap-2">
             <span>📋</span> Your Lab Reports List
           </h3>
-          <p id="reportsListDesc" class="text-xs text-slate-400">Each report below will produce an individual PDF cover page.</p>
+          <p id="reportsListDesc" class="text-xs text-slate-400">Each report below will produce an individual PDF cover
+            page.</p>
         </div>
-        <button type="button" id="btnAddReport" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition shadow-md active:scale-95">
+        <button type="button" id="btnAddReport"
+          class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition shadow-md active:scale-95">
           <span>+</span>
           <span>Add Lab Report</span>
         </button>
@@ -719,22 +841,29 @@
       </div>
 
       <!-- Empty State -->
-      <div id="reportsEmptyState" class="text-center py-12 px-4 rounded-2xl border border-dashed border-slate-700 bg-slate-800/30 space-y-3 hidden">
+      <div id="reportsEmptyState"
+        class="text-center py-12 px-4 rounded-2xl border border-dashed border-slate-700 bg-slate-800/30 space-y-3 hidden">
         <span class="text-3xl">📝</span>
         <h4 class="text-sm font-semibold text-slate-300">No lab reports added yet</h4>
-        <p class="text-xs text-slate-500 max-w-sm mx-auto">Click "Add Lab Report" above or use the Quick Create box to generate sequential reports in seconds.</p>
-        <button type="button" onclick="document.getElementById('btnAddReport').click()" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">Click "Add Lab Report" above or use the Quick Create box to
+          generate sequential reports in seconds.</p>
+        <button type="button" onclick="document.getElementById('btnAddReport').click()"
+          class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
           + Add First Report
         </button>
       </div>
 
       <!-- Navigation Footer -->
       <div class="flex items-center justify-between gap-3 pt-2">
-        <button type="button" class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2" data-target="2">
+        <button type="button"
+          class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2"
+          data-target="2">
           <span>←</span>
           <span>Back: Details</span>
         </button>
-        <button type="button" class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2" data-target="4">
+        <button type="button"
+          class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2"
+          data-target="4">
           <span>Next: Preview & Download</span>
           <span>→</span>
         </button>
@@ -747,13 +876,15 @@
 
       <!-- Action & Selector Bar -->
       <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-4 sm:p-5 space-y-4">
-        
+
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-700">
           <div>
-            <label id="previewReportSelectorLabel" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+            <label id="previewReportSelectorLabel"
+              class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
               Select Lab Report to Preview
             </label>
-            <select id="previewReportSelector" class="form-input rounded-xl px-3 py-2 text-sm font-medium w-full sm:w-80">
+            <select id="previewReportSelector"
+              class="form-input rounded-xl px-3 py-2 text-sm font-medium w-full sm:w-80">
               <!-- Dynamically populated -->
             </select>
           </div>
@@ -761,26 +892,32 @@
           <!-- Total Count Badge -->
           <div class="flex items-center gap-2 text-xs text-slate-400">
             <span>Total cover pages ready:</span>
-            <span id="readyCountBadge" class="font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800 px-2 py-0.5 rounded-full">3</span>
+            <span id="readyCountBadge"
+              class="font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800 px-2 py-0.5 rounded-full">3</span>
           </div>
         </div>
 
         <!-- Download Buttons Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
           <!-- Download Selected -->
-          <button type="button" id="btnDownloadSingle" class="sm:col-span-2 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-4 py-3 rounded-xl shadow-lg shadow-blue-900/30 transition active:scale-95">
+          <button type="button" id="btnDownloadSingle"
+            class="sm:col-span-2 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-4 py-3 rounded-xl shadow-lg shadow-blue-900/30 transition active:scale-95">
             <span>📥</span>
             <span>Download This PDF</span>
           </button>
 
           <!-- Download All (ZIP) -->
-          <button type="button" id="btnDownloadZip" class="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs sm:text-sm px-3 py-3 rounded-xl shadow-md transition active:scale-95" title="Download all reports bundled into a single ZIP archive">
+          <button type="button" id="btnDownloadZip"
+            class="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs sm:text-sm px-3 py-3 rounded-xl shadow-md transition active:scale-95"
+            title="Download all reports bundled into a single ZIP archive">
             <span>📦</span>
             <span>Download All (ZIP)</span>
           </button>
 
           <!-- Download All One-by-One -->
-          <button type="button" id="btnDownloadAllSequential" class="inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold text-xs sm:text-sm px-3 py-3 rounded-xl border border-slate-600 transition active:scale-95" title="Downloads each PDF file sequentially">
+          <button type="button" id="btnDownloadAllSequential"
+            class="inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold text-xs sm:text-sm px-3 py-3 rounded-xl border border-slate-600 transition active:scale-95"
+            title="Downloads each PDF file sequentially">
             <span>⬇️</span>
             <span>All (Individual)</span>
           </button>
@@ -789,7 +926,8 @@
         <!-- Print Shortcut & Sequential Progress bar -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1 text-xs text-slate-400">
           <div class="flex items-center gap-2">
-            <button type="button" id="btnPrintPreview" class="hover:text-blue-400 transition underline underline-offset-4 flex items-center gap-1.5">
+            <button type="button" id="btnPrintPreview"
+              class="hover:text-blue-400 transition underline underline-offset-4 flex items-center gap-1.5">
               🖨️ Print Preview Dialog
             </button>
             <span>&bull;</span>
@@ -811,7 +949,7 @@
 
         <!-- Scaling Viewport Container for mobile & desktop -->
         <div id="previewContainer" class="w-full flex justify-center overflow-hidden transition-all duration-300">
-          
+
           <!-- The White A4 Paper Sheet (always white!) -->
           <div id="a4Sheet" class="a4-sheet p-10 flex flex-col justify-between text-black">
             <!-- Exact Document Layout Rendered via JS -->
@@ -822,11 +960,14 @@
 
       <!-- Navigation Footer -->
       <div class="flex items-center justify-between gap-3 pt-2">
-        <button type="button" class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2" data-target="3">
+        <button type="button"
+          class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2"
+          data-target="3">
           <span>←</span>
           <span>Back to Lab Reports</span>
         </button>
-        <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-3 rounded-xl border border-slate-700 transition">
+        <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+          class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-3 rounded-xl border border-slate-700 transition">
           ↑ Back to Top
         </button>
       </div>
@@ -839,16 +980,27 @@
       <!-- University Monogram & Introduction -->
       <div class="bg-slate-800/60 border border-slate-700/70 rounded-2xl p-6 sm:p-8 space-y-4">
         <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
-          <img src="media/mbstu-logo.jpg" alt="Mawlana Bhashani Science and Technology University (MBSTU) Official Logo" width="960" height="960" loading="lazy" class="w-20 h-20 rounded-2xl object-contain bg-white p-1.5 border border-slate-700 shadow-md shrink-0">
+          <img src="media/mbstu-logo.jpg" alt="Mawlana Bhashani Science and Technology University (MBSTU) Official Logo"
+            width="960" height="960" loading="lazy"
+            class="w-20 h-20 rounded-2xl object-contain bg-white p-1.5 border border-slate-700 shadow-md shrink-0">
           <div class="space-y-2">
             <h2 class="text-xl sm:text-2xl font-bold text-white">
               Official MBSTU Lab Report &amp; Assignment Cover Page Generator
             </h2>
             <p class="text-sm text-slate-300 leading-relaxed">
-              The <strong>MBSTU Cover Page Generator</strong> is a free, web-based tool designed specifically for students at <strong>Mawlana Bhashani Science and Technology University (MBSTU)</strong> in Santosh, Tangail. Creating a standardized, professional academic cover page is a mandatory requirement for engineering laboratory reports and course assignments across departments such as Textile Engineering, Computer Science and Engineering, Information and Communication Technology, and others.
+              The <strong>MBSTU Cover Page Generator</strong> is a free, web-based tool designed specifically for
+              students at <strong>Mawlana Bhashani Science and Technology University (MBSTU)</strong> in Santosh,
+              Tangail. Creating a standardized, professional academic cover page is a mandatory requirement for
+              engineering laboratory reports and course assignments across departments such as Textile Engineering,
+              Computer Science and Engineering, Information and Communication Technology, and others.
             </p>
             <p class="text-sm text-slate-300 leading-relaxed">
-              This generator streamlines the process into 4 simple steps: enter course details, input student and instructor info, manage lab experiment topics or assignment titles, and instantly preview and export a print-ready A4 vector PDF. Featuring the official MBSTU logo, automatic sequential batch numbering, and strict DD/MM/YYYY date formatting, students can generate multiple submission pages in under 2 minutes. The application runs entirely client-side in your browser, meaning it functions offline and ensures your personal information remains 100% private.
+              This generator streamlines the process into 4 simple steps: enter course details, input student and
+              instructor info, manage lab experiment topics or assignment titles, and instantly preview and export a
+              print-ready A4 vector PDF. Featuring the official MBSTU logo, automatic sequential batch numbering, and
+              strict DD/MM/YYYY date formatting, students can generate multiple submission pages in under 2 minutes. The
+              application runs entirely client-side in your browser, meaning it functions offline and ensures your
+              personal information remains 100% private.
             </p>
           </div>
         </div>
@@ -864,7 +1016,9 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <!-- Step 1 Image -->
           <figure class="bg-slate-800/80 border border-slate-700 rounded-2xl p-3 space-y-2">
-            <img src="media/mbstu-cover-step1-course-info.jpg" alt="MBSTU cover page generator step 1 course information form" width="1040" height="629" loading="lazy" class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
+            <img src="media/mbstu-cover-step1-course-info.jpg"
+              alt="MBSTU cover page generator step 1 course information form" width="1040" height="629" loading="lazy"
+              class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
             <figcaption class="text-xs text-slate-300 font-medium px-1">
               <strong>Step 1:</strong> Course Information Setup &amp; University Monogram Management
             </figcaption>
@@ -872,7 +1026,9 @@
 
           <!-- Step 2 Image -->
           <figure class="bg-slate-800/80 border border-slate-700 rounded-2xl p-3 space-y-2">
-            <img src="media/mbstu-cover-step2-student-details.jpg" alt="MBSTU cover page generator step 2 student and teacher details" width="818" height="639" loading="lazy" class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
+            <img src="media/mbstu-cover-step2-student-details.jpg"
+              alt="MBSTU cover page generator step 2 student and teacher details" width="818" height="639"
+              loading="lazy" class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
             <figcaption class="text-xs text-slate-300 font-medium px-1">
               <strong>Step 2:</strong> Student Name, ID, Session, and Teacher Information
             </figcaption>
@@ -880,7 +1036,9 @@
 
           <!-- Step 3 Image -->
           <figure class="bg-slate-800/80 border border-slate-700 rounded-2xl p-3 space-y-2">
-            <img src="media/mbstu-cover-step3-lab-reports.jpg" alt="MBSTU lab report entry and quick batch generator" width="711" height="638" loading="lazy" class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
+            <img src="media/mbstu-cover-step3-lab-reports.jpg" alt="MBSTU lab report entry and quick batch generator"
+              width="711" height="638" loading="lazy"
+              class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
             <figcaption class="text-xs text-slate-300 font-medium px-1">
               <strong>Step 3:</strong> Lab Reports / Assignment Mode Switcher &amp; Batch Generator
             </figcaption>
@@ -888,7 +1046,9 @@
 
           <!-- Step 4 Image -->
           <figure class="bg-slate-800/80 border border-slate-700 rounded-2xl p-3 space-y-2">
-            <img src="media/mbstu-cover-step4-preview-download.jpg" alt="MBSTU cover page live A4 preview and PDF download" width="611" height="629" loading="lazy" class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
+            <img src="media/mbstu-cover-step4-preview-download.jpg"
+              alt="MBSTU cover page live A4 preview and PDF download" width="611" height="629" loading="lazy"
+              class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
             <figcaption class="text-xs text-slate-300 font-medium px-1">
               <strong>Step 4:</strong> Exact 1:1 A4 Sheet Preview &amp; Multi-Format PDF Downloads
             </figcaption>
@@ -900,19 +1060,25 @@
       <div class="space-y-6">
         <div class="text-center sm:text-left">
           <h2 class="text-lg sm:text-xl font-bold text-white">Sample PDF Cover Pages</h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">High-definition vector outputs for MBSTU lab reports and course assignments.</p>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">High-definition vector outputs for MBSTU lab reports and
+            course assignments.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <figure class="bg-slate-800/80 border border-slate-700 rounded-2xl p-3 space-y-2">
-            <img src="media/mbstu-lab-report-cover-sample.jpg" alt="MBSTU lab report cover page sample PDF with university logo, course details and submission box" width="1031" height="661" loading="lazy" class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
+            <img src="media/mbstu-lab-report-cover-sample.jpg"
+              alt="MBSTU lab report cover page sample PDF with university logo, course details and submission box"
+              width="1031" height="661" loading="lazy"
+              class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
             <figcaption class="text-xs text-slate-300 font-medium px-1">
               Standard MBSTU Lab Report Cover Page with Monogram and Details
             </figcaption>
           </figure>
 
           <figure class="bg-slate-800/80 border border-slate-700 rounded-2xl p-3 space-y-2">
-            <img src="media/mbstu-assignment-cover-sample.jpg" alt="MBSTU assignment cover page sample PDF generated by the cover page generator" width="975" height="653" loading="lazy" class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
+            <img src="media/mbstu-assignment-cover-sample.jpg"
+              alt="MBSTU assignment cover page sample PDF generated by the cover page generator" width="975"
+              height="653" loading="lazy" class="rounded-xl border border-slate-700/80 w-full object-cover shadow-sm">
             <figcaption class="text-xs text-slate-300 font-medium px-1">
               Standard MBSTU Course Assignment Cover Page Layout
             </figcaption>
@@ -931,47 +1097,57 @@
           <div class="bg-slate-800/60 border border-slate-700/70 rounded-xl p-4 sm:p-5 space-y-2">
             <h3 class="text-base font-semibold text-white">How do I get an MBSTU lab report cover page?</h3>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              You can create and download an official MBSTU lab report cover page directly on this site in under 2 minutes. Simply complete the 4 steps: fill in your course information, your student and instructor details, your experiment numbers and topics, and click Download This PDF or Download All (ZIP).
+              You can create and download an official MBSTU lab report cover page directly on this site in under 2
+              minutes. Simply complete the 4 steps: fill in your course information, your student and instructor
+              details, your experiment numbers and topics, and click Download This PDF or Download All (ZIP).
             </p>
           </div>
 
           <div class="bg-slate-800/60 border border-slate-700/70 rounded-xl p-4 sm:p-5 space-y-2">
             <h3 class="text-base font-semibold text-white">Is the official MBSTU logo included?</h3>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Yes. The official Mawlana Bhashani Science and Technology University monogram is built directly into the generator in vector quality. You can also upload your own departmental logo or remove it if not needed.
+              Yes. The official Mawlana Bhashani Science and Technology University monogram is built directly into the
+              generator in vector quality. You can also upload your own departmental logo or remove it if not needed.
             </p>
           </div>
 
           <div class="bg-slate-800/60 border border-slate-700/70 rounded-xl p-4 sm:p-5 space-y-2">
-            <h3 class="text-base font-semibold text-white">Can I make assignment cover pages as well as lab reports?</h3>
+            <h3 class="text-base font-semibold text-white">Can I make assignment cover pages as well as lab reports?
+            </h3>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Yes. In Step 3, use the document type switcher to toggle between Lab Report and Assignment mode. The titles, numbering, and topics adjust automatically to standard assignment formatting.
+              Yes. In Step 3, use the document type switcher to toggle between Lab Report and Assignment mode. The
+              titles, numbering, and topics adjust automatically to standard assignment formatting.
             </p>
           </div>
 
           <div class="bg-slate-800/60 border border-slate-700/70 rounded-xl p-4 sm:p-5 space-y-2">
             <h3 class="text-base font-semibold text-white">Is the generator free to use?</h3>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Yes, this tool is 100% free and open-source for all MBSTU students. There are no fees, subscriptions, or hidden charges.
+              Yes, this tool is 100% free and open-source for all MBSTU students. There are no fees, subscriptions, or
+              hidden charges.
             </p>
           </div>
 
           <div class="bg-slate-800/60 border border-slate-700/70 rounded-xl p-4 sm:p-5 space-y-2">
             <h3 class="text-base font-semibold text-white">Do I need to create an account or install anything?</h3>
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              No. No login or installation is needed. The tool runs directly in your browser on desktop or mobile and saves your inputs automatically in your local browser cache.
+              No. No login or installation is needed. The tool runs directly in your browser on desktop or mobile and
+              saves your inputs automatically in your local browser cache.
             </p>
           </div>
         </div>
       </div>
 
       <!-- Developer Info & Social Contact -->
-      <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <div
+        class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
         <p>
-          Developed with ❤️ for MBSTU students by <strong class="text-white">Nomun Sheikh</strong> (Department of Textile Engineering, MBSTU).
+          Developed with ❤️ for MBSTU students by <strong class="text-white">Nomun Sheikh</strong> (Department of
+          Textile Engineering, MBSTU).
         </p>
         <div class="flex items-center gap-4">
-          <a href="https://www.instagram.com/sheikh.nomun/" target="_blank" rel="noopener noreferrer" class="text-pink-400 hover:text-pink-300 font-medium">
+          <a href="https://www.instagram.com/sheikh.nomun/" target="_blank" rel="noopener noreferrer"
+            class="text-pink-400 hover:text-pink-300 font-medium">
             Follow on Instagram (@sheikh.nomun)
           </a>
           <a href="mailto:nomun.s@outlook.com" class="text-blue-400 hover:text-blue-300">
@@ -986,7 +1162,8 @@
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="mt-auto border-t border-slate-800 bg-slate-900/60 py-6 text-slate-400 text-xs">
-    <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+    <div
+      class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
       <div>
         <p class="font-medium text-slate-300">
           MBSTU Lab Report &amp; Assignment Cover Page Generator &bull; Version 3.0
@@ -998,13 +1175,17 @@
         </p>
       </div>
       <div class="flex items-center gap-3">
-        <a href="https://www.instagram.com/sheikh.nomun/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-90 shadow-sm transition active:scale-95" title="Follow on Instagram">
+        <a href="https://www.instagram.com/sheikh.nomun/" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-90 shadow-sm transition active:scale-95"
+          title="Follow on Instagram">
           <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
           </svg>
           <span>Follow me on Instagram</span>
         </a>
-        <button type="button" id="btnFooterAbout" class="text-xs text-blue-400 hover:text-blue-300 underline underline-offset-4">
+        <button type="button" id="btnFooterAbout"
+          class="text-xs text-blue-400 hover:text-blue-300 underline underline-offset-4">
           About
         </button>
       </div>
@@ -1012,7 +1193,8 @@
   </footer>
 
   <!-- ==================== ABOUT & DEVELOPER MODAL ==================== -->
-  <div id="aboutModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+  <div id="aboutModal"
+    class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="text-lg font-bold text-white flex items-center gap-2">
@@ -1022,25 +1204,33 @@
       </div>
 
       <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
-        <p>A free, open-source tool designed for engineering and other students at <strong>Mawlana Bhashani Science and Technology University (MBSTU)</strong> to create standardized, high-quality vector PDF cover pages quickly.</p>
+        <p>A free, open-source tool designed for engineering and other students at <strong>Mawlana Bhashani Science and
+            Technology University (MBSTU)</strong> to create standardized, high-quality vector PDF cover pages quickly.
+        </p>
 
         <div class="bg-slate-800/90 rounded-2xl p-4 space-y-3 border border-slate-700/80 shadow-inner">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-700/60">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-700/60">
             <div>
               <p class="text-[11px] text-slate-400 uppercase font-semibold tracking-wider">Developer & Designer</p>
               <h4 class="text-base font-bold text-white">Nomun Sheikh</h4>
             </div>
-            <a href="https://www.instagram.com/sheikh.nomun/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-90 shadow-md shadow-pink-950/40 transition active:scale-95 shrink-0" title="Follow on Instagram">
+            <a href="https://www.instagram.com/sheikh.nomun/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-90 shadow-md shadow-pink-950/40 transition active:scale-95 shrink-0"
+              title="Follow on Instagram">
               <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
               </svg>
               <span>Follow on Instagram</span>
             </a>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
-            <p><span class="text-slate-400">Email:</span> <a href="mailto:nomun.s@outlook.com" class="text-blue-400 hover:underline">nomun.s@outlook.com</a></p>
-            <p><span class="text-slate-400">Instagram:</span> <a href="https://www.instagram.com/sheikh.nomun/" target="_blank" rel="noopener noreferrer" class="text-pink-400 hover:underline">@sheikh.nomun</a></p>
+            <p><span class="text-slate-400">Email:</span> <a href="mailto:nomun.s@outlook.com"
+                class="text-blue-400 hover:underline">nomun.s@outlook.com</a></p>
+            <p><span class="text-slate-400">Instagram:</span> <a href="https://www.instagram.com/sheikh.nomun/"
+                target="_blank" rel="noopener noreferrer" class="text-pink-400 hover:underline">@sheikh.nomun</a></p>
             <p><span class="text-slate-400">Version:</span> <span class="text-slate-200">3.0 (Major Redesign)</span></p>
             <p><span class="text-slate-400">Last Updated:</span> <span class="text-slate-200">November 2026</span></p>
           </div>
@@ -1048,12 +1238,14 @@
 
         <div class="text-xs text-slate-400 space-y-1">
           <p class="font-semibold text-slate-300">🔒 100% Privacy Focused:</p>
-          <p>No backend, no analytics, no external servers. Everything runs entirely inside your browser, and data is safely stored in your local browser cache.</p>
+          <p>No backend, no analytics, no external servers. Everything runs entirely inside your browser, and data is
+            safely stored in your local browser cache.</p>
         </div>
       </div>
 
       <div class="pt-2">
-        <button type="button" id="btnModalCloseOk" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm py-2.5 rounded-xl transition">
+        <button type="button" id="btnModalCloseOk"
+          class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm py-2.5 rounded-xl transition">
           Got it
         </button>
       </div>
@@ -1182,7 +1374,7 @@
       logoData = { ...DEFAULT_LOGO_DATA };
       try {
         localStorage.removeItem(LOGO_STORAGE_KEY);
-      } catch (e) {}
+      } catch (e) { }
       updateLogoPreviewUI();
       renderPreview();
       showToast('Default MBSTU logo restored ✓', '✓');
@@ -1192,7 +1384,7 @@
       logoData = null;
       try {
         localStorage.setItem(LOGO_STORAGE_KEY, 'none');
-      } catch (e) {}
+      } catch (e) { }
       updateLogoPreviewUI();
       renderPreview();
       showToast('Logo removed', 'ℹ️');
@@ -1203,7 +1395,7 @@
       const emptyEl = document.getElementById('logoEmptyText');
       const removeBtn = document.getElementById('btnRemoveLogo');
       const resetBtn = document.getElementById('btnResetDefaultLogo');
-      
+
       const isDefault = logoData && logoData.dataUrl === DEFAULT_LOGO_DATA.dataUrl;
 
       if (logoData && logoData.dataUrl) {
@@ -1235,9 +1427,9 @@
       }
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const img = new Image();
-        img.onload = function() {
+        img.onload = function () {
           try {
             // Downscale to max 300px wide/high to save space & prevent memory lag
             const maxDim = 300;
@@ -1268,12 +1460,12 @@
             showToast('Failed to process image', '⚠️');
           }
         };
-        img.onerror = function() {
+        img.onerror = function () {
           showToast('Corrupted image file', '⚠️');
         };
         img.src = e.target.result;
       };
-      reader.onerror = function() {
+      reader.onerror = function () {
         showToast('Failed to read image file', '⚠️');
       };
       reader.readAsDataURL(file);
@@ -1306,7 +1498,7 @@
         try {
           appState.version = CURRENT_VERSION;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-          
+
           // Visual feedback
           const badge = document.getElementById('autoSaveBadge');
           if (badge) {
@@ -1370,7 +1562,7 @@
       stepBtns.forEach(btn => {
         const s = parseInt(btn.dataset.step);
         const numSpan = btn.querySelector('.step-num');
-        
+
         if (s === currentStep) {
           btn.className = 'step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-blue-600/10 border border-blue-500/40 text-blue-400';
           numSpan.className = 'step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-blue-600 text-white shrink-0';
@@ -1883,7 +2075,7 @@
       const itemPrefix = isAssignment ? 'Assignment #' : 'Lab #';
       sel.innerHTML = appState.reports.map((r, idx) => {
         const topicPreview = r.topic ? ` - ${r.topic.substring(0, 30)}${r.topic.length > 30 ? '...' : ''}` : ' (No topic)';
-        return `<option value="${escapeHtml(r.id)}">${itemPrefix}${escapeHtml(r.labNo || String(idx+1))}${escapeHtml(topicPreview)}</option>`;
+        return `<option value="${escapeHtml(r.id)}">${itemPrefix}${escapeHtml(r.labNo || String(idx + 1))}${escapeHtml(topicPreview)}</option>`;
       }).join('');
 
       if (!selectedReportId || !appState.reports.some(r => r.id === selectedReportId)) {
@@ -2077,7 +2269,7 @@
     function createVectorPDF(rep) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      
+
       const st = appState;
       const pw = 210, ph = 297;
       const baseFontSize = parseInt(st.fontSize) || 12;
@@ -2141,7 +2333,7 @@
         doc.text(line, 105, y, { align: 'center' });
         y += 4.5;
       });
-      
+
       // Clear spacing between address and the top double-line bar (prevents overlap)
       y += 6;
 
@@ -2182,7 +2374,7 @@
       doc.text(String(rep.labNo || '01'), 105, y, { align: 'center' });
       const noWidth = doc.getTextWidth(String(rep.labNo || '01'));
       doc.setLineWidth(0.3);
-      doc.line(105 - (noWidth/2) - 2, y + 1.5, 105 + (noWidth/2) + 2, y + 1.5);
+      doc.line(105 - (noWidth / 2) - 2, y + 1.5, 105 + (noWidth / 2) + 2, y + 1.5);
       y += 9;
 
       // 6. Lab report on / Assignment title (topic in italics, max 3 lines)
@@ -2290,7 +2482,7 @@
       doc.rect(boxX1, y, pw - 30, datesBoxH);
       doc.setFont('times', 'normal');
       doc.setFontSize(baseFontSize - 1);
-      
+
       const perfText = `Date of performance: ${formatReportDate(rep.perfDate)}`;
       const subText = `Date of submission: ${formatReportDate(rep.subDate)}`;
 
@@ -2337,7 +2529,7 @@
       for (let i = 0; i < reports.length; i++) {
         const rep = reports[i];
         progressEl.textContent = `Downloading ${i + 1} of ${reports.length}: Lab #${rep.labNo}...`;
-        
+
         try {
           const doc = createVectorPDF(rep);
           doc.save(makeFilename(rep));
@@ -2376,7 +2568,7 @@
 
         progressEl.textContent = 'Compressing ZIP...';
         const zipContent = await zip.generateAsync({ type: 'blob' });
-        
+
         const cleanCourse = (appState.courseCode || 'MBSTU').replace(/[^a-zA-Z0-9_-]/g, '');
         const zipName = `${cleanCourse}_All_${appState.docType === 'assignment' ? 'Assignment' : 'Lab'}_Cover_Pages.zip`;
 
@@ -2528,4 +2720,5 @@
     }
   </script>
 </body>
+
 </html>
