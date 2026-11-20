@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBSTU Lab Report Cover Page Generator</title>
+
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Times New Roman', 'Times', 'Georgia', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd',
+              400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8',
+              800: '#1e40af', 900: '#1e3a5f',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- jsPDF for pure vector PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- JSZip for optional bundled ZIP download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #0f172a; /* Slate 900 */
+      color: #e2e8f0;            /* Slate 200 */
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    /* Touch target comfort */
+    button, input, select, textarea {
+      min-height: 44px;
+    }
+
+    /* Input style enhancements */
+    .form-input {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+      transition: all 0.2s ease;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    .form-input.input-error {
+      border-color: #ef4444 !important;
+      background-color: rgba(239, 68, 68, 0.05) !important;
+    }
+
+    /* A4 sheet dimensions in px at 96 DPI: 210mm x 297mm ≈ 794px x 1123px */
+    .a4-sheet {
+      width: 794px;
+      height: 1123px;
+      min-width: 794px;
+      min-height: 1123px;
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      font-family: 'Times New Roman', Times, Georgia, serif;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+
+    /* Toast notification animation */
+    #toast {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      transform: translateY(-100px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    #toast.toast-show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Step transition */
+    .step-section {
+      animation: fadeIn 0.25s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Print only A4 preview */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      header, nav, #progressBar, #stepContainer, footer, #toast, #aboutModal, .no-print {
+        display: none !important;
+      }
+      #previewSection, #previewContainer, .preview-outer {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .a4-sheet {
+        box-shadow: none !important;
+        margin: 0 auto !important;
+        transform: none !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-xl shadow-2xl text-sm font-medium border">
+    <span id="toastIcon">✓</span>
+    <span id="toastMessage">Saved automatically</span>
+  </div>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-40">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Logo & App Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-lg shadow-inner">
+          📄
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-bold text-white tracking-tight">MBSTU Cover Generator</h1>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">v3.0</span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">Lab report cover pages made in under 2 minutes</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2">
+        <!-- Auto save indicator -->
+        <span id="autoSaveBadge" class="hidden sm:inline-flex items-center gap-1.5 text-xs text-emerald-400 font-medium px-2.5 py-1 rounded-md bg-emerald-950/40 border border-emerald-800/40">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Saved ✓
+        </span>
+
+        <!-- Try Example Data -->
+        <button id="btnTryExample" type="button" class="text-xs sm:text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-lg transition" title="Fill with sample course, student and lab data">
+          💡 Try example
+        </button>
+
+        <!-- Start Fresh -->
+        <button id="btnStartFresh" type="button" class="text-xs sm:text-sm font-medium text-red-400 hover:text-red-300 bg-red-950/30 hover:bg-red-900/40 border border-red-900/40 px-2.5 py-1.5 rounded-lg transition" title="Clear all data and start fresh">
+          🗑️ Clear
+        </button>
+
+        <!-- About Modal Trigger -->
+        <button id="btnOpenAbout" type="button" class="text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 p-2 rounded-lg hover:bg-slate-800 transition" title="About & Developer Info">
+          ℹ️
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== STEP PROGRESS BAR ==================== -->
+  <nav id="progressBar" class="bg-slate-900 border-b border-slate-800/80 py-3 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid grid-cols-4 gap-1 sm:gap-2">
+
+        <!-- Step 1 Tab -->
+        <button type="button" class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-blue-600/10 border border-blue-500/40 text-blue-400" data-step="1">
+          <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-blue-600 text-white shrink-0">1</span>
+          <div class="truncate">
+            <span class="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider hidden sm:block">Step 1</span>
+            <span class="block text-xs sm:text-sm font-semibold truncate text-white">Course</span>
+          </div>
+        </button>
+
+        <!-- Step 2 Tab -->
+        <button type="button" class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700" data-step="2">
+          <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2</span>
+          <div class="truncate">
+            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step 2</span>
+            <span class="block text-xs sm:text-sm font-semibold truncate">People</span>
+          </div>
+        </button>
+
+        <!-- Step 3 Tab -->
+        <button type="button" class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700" data-step="3">
+          <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">3</span>
+          <div class="truncate">
+            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step 3</span>
+            <span class="block text-xs sm:text-sm font-semibold truncate">Reports</span>
+          </div>
+        </button>
+
+        <!-- Step 4 Tab -->
+        <button type="button" class="step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700" data-step="4">
+          <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">4</span>
+          <div class="truncate">
+            <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step 4</span>
+            <span class="block text-xs sm:text-sm font-semibold truncate">Download</span>
+          </div>
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== MAIN STEP CONTAINER ==================== -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6">
+
+    <!-- ==================== STEP 1: COURSE INFO ==================== -->
+    <section id="step1" class="step-section space-y-6">
+
+      <!-- Friendly Intro / "What is this?" -->
+      <div class="bg-gradient-to-r from-blue-950/40 to-slate-900 border border-blue-900/40 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
+        <span class="text-2xl shrink-0">👋</span>
+        <div>
+          <h2 class="text-sm sm:text-base font-semibold text-blue-200">Welcome! Create your lab report cover pages in 4 quick steps.</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">Fill in your course details once. In Step 3 you can generate multiple lab reports at once with different lab numbers and topics.</p>
+        </div>
+      </div>
+
+      <!-- Main Course Card -->
+      <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 sm:p-6 space-y-5">
+        <h3 class="text-base font-bold text-white flex items-center gap-2 pb-3 border-b border-slate-700">
+          <span>📚</span> Course Details
+        </h3>
+
+        <!-- Course Title -->
+        <div>
+          <label class="block text-sm font-medium text-slate-200 mb-1">
+            Course Title <span class="text-red-400">*</span>
+          </label>
+          <input type="text" id="courseTitle" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. Textile Testing and Quality Control-III (lab)">
+          <p class="text-xs text-slate-400 mt-1">The official full name of the laboratory course.</p>
+          <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
+        </div>
+
+        <!-- Course Code & Department -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Course Code <span class="text-red-400">*</span>
+            </label>
+            <input type="text" id="courseCode" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. TXE 4112">
+            <p class="text-xs text-slate-400 mt-1">Course code as stated in your syllabus (e.g. TXE 4112).</p>
+            <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Department <span class="text-red-400">*</span>
+            </label>
+            <input type="text" id="department" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. Textile Engineering">
+            <p class="text-xs text-slate-400 mt-1">Your academic department name.</p>
+            <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
+          </div>
+        </div>
+
+        <!-- Session, Year, Semester -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Academic Session <span class="text-red-400">*</span>
+            </label>
+            <input type="text" id="session" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. 2018-19">
+            <p class="text-xs text-slate-400 mt-1">Your enrolled session year.</p>
+            <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Year <span class="text-red-400">*</span>
+            </label>
+            <select id="year" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm">
+              <option value="1st">1st Year</option>
+              <option value="2nd">2nd Year</option>
+              <option value="3rd">3rd Year</option>
+              <option value="4th" selected>4th Year</option>
+            </select>
+            <p class="text-xs text-slate-400 mt-1">Current academic year.</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Semester <span class="text-red-400">*</span>
+            </label>
+            <select id="semester" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm">
+              <option value="1st" selected>1st Semester</option>
+              <option value="2nd">2nd Semester</option>
+            </select>
+            <p class="text-xs text-slate-400 mt-1">Current semester.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- University Logo & Customization Card -->
+      <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 sm:p-6 space-y-5">
+        <h3 class="text-base font-bold text-white flex items-center gap-2 pb-3 border-b border-slate-700">
+          <span>🏛️</span> University Logo & Page Settings
+        </h3>
+
+        <!-- Logo Upload Area -->
+        <div>
+          <label class="block text-sm font-medium text-slate-200 mb-1">
+            University Logo (PNG or JPG)
+          </label>
+          <p class="text-xs text-slate-400 mb-3">Upload your official university monogram. It is automatically optimized and saved in your browser cache.</p>
+
+          <div class="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-slate-900 border border-dashed border-slate-700">
+            <!-- Logo Preview Thumbnail -->
+            <div id="logoPreviewContainer" class="w-24 h-24 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center p-2 shrink-0 overflow-hidden text-center">
+              <span id="logoEmptyText" class="text-[11px] text-slate-500 font-medium">No logo uploaded</span>
+              <img id="logoPreviewImg" class="max-w-full max-h-full object-contain hidden" alt="Uploaded logo">
+            </div>
+
+            <!-- Upload Controls -->
+            <div class="flex-1 space-y-2 text-center sm:text-left w-full">
+              <div class="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
+                <label for="logoFileInput" class="cursor-pointer inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition shadow-sm active:scale-95">
+                  📁 Choose Logo Image
+                </label>
+                <input type="file" id="logoFileInput" accept="image/png, image/jpeg, image/jpg" class="hidden">
+                <button type="button" id="btnRemoveLogo" class="text-xs font-semibold px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-red-950/40 text-red-400 border border-slate-700 hover:border-red-900/40 transition hidden">
+                  ✕ Remove Logo
+                </button>
+              </div>
+              <p class="text-[11px] text-slate-500">Supported formats: PNG, JPG. Downscaled automatically to preserve memory.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo Size Selector & Border Toggle -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Logo Size on Page
+            </label>
+            <select id="logoSize" class="form-input w-full rounded-xl px-3 py-2.5 text-sm">
+              <option value="small">Small (22 mm)</option>
+              <option value="medium" selected>Medium (28 mm)</option>
+              <option value="large">Large (34 mm)</option>
+            </select>
+            <p class="text-xs text-slate-400 mt-1">Adjusts logo height on the cover page.</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Text Font Size
+            </label>
+            <select id="fontSize" class="form-input w-full rounded-xl px-3 py-2.5 text-sm">
+              <option value="11">11 pt (Compact)</option>
+              <option value="12" selected>12 pt (Standard / Recommended)</option>
+              <option value="13">13 pt (Large)</option>
+            </select>
+            <p class="text-xs text-slate-400 mt-1">Base font size for all text labels.</p>
+          </div>
+
+          <div class="flex flex-col justify-center pt-2 sm:pt-4">
+            <label class="inline-flex items-center gap-3 cursor-pointer select-none">
+              <input type="checkbox" id="showBorder" checked class="w-5 h-5 rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-800">
+              <span class="text-sm font-medium text-slate-200">Show 10mm Outer Border</span>
+            </label>
+            <p class="text-xs text-slate-400 mt-1">Draws clean rectangular frame around cover page.</p>
+          </div>
+        </div>
+
+        <!-- University Header Text (Editable) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-700/60">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              University Name Header
+            </label>
+            <input type="text" id="uniName" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="MAWLANA BHASHANI SCIENCE AND TECHNOLOGY UNIVERSITY">
+            <p class="text-xs text-slate-400 mt-1">Printed in bold uppercase at top of page.</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              University Address Line
+            </label>
+            <input type="text" id="uniAddress" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="Santosh, Tangail-1902">
+            <p class="text-xs text-slate-400 mt-1">Printed directly below university name.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2" data-target="2">
+          <span>Next: Your Details</span>
+          <span>→</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==================== STEP 2: YOUR DETAILS ==================== -->
+    <section id="step2" class="step-section space-y-6 hidden">
+
+      <!-- Student Details Card -->
+      <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 sm:p-6 space-y-5">
+        <h3 class="text-base font-bold text-white flex items-center gap-2 pb-3 border-b border-slate-700">
+          <span>🎓</span> Submitted By (Your Information)
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Student Full Name <span class="text-red-400">*</span>
+            </label>
+            <input type="text" id="studentName" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm font-medium" placeholder="e.g. Sheikh Nomun">
+            <p class="text-xs text-slate-400 mt-1">Your official name as registered with university.</p>
+            <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Student ID / Roll No <span class="text-red-400">*</span>
+            </label>
+            <input type="text" id="studentId" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. TE19021">
+            <p class="text-xs text-slate-400 mt-1">Your student ID or registration number.</p>
+            <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instructor Details Card -->
+      <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 sm:p-6 space-y-5">
+        <h3 class="text-base font-bold text-white flex items-center gap-2 pb-3 border-b border-slate-700">
+          <span>👨‍🏫</span> Submitted To (Instructor / Course Teacher)
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Instructor Name <span class="text-red-400">*</span>
+            </label>
+            <input type="text" id="instructorName" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm font-medium" placeholder="e.g. Dr. Example Name">
+            <p class="text-xs text-slate-400 mt-1">Name of the course teacher evaluating the report.</p>
+            <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-1">
+              Instructor Designation <span class="text-red-400">*</span>
+            </label>
+            <input type="text" id="instructorDesignation" class="form-input w-full rounded-xl px-3.5 py-2.5 text-sm" placeholder="e.g. Lecturer, Assistant Professor">
+            <p class="text-xs text-slate-400 mt-1">Official academic rank of the teacher.</p>
+            <p class="error-msg text-xs text-red-400 mt-1 hidden"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between gap-3 pt-2">
+        <button type="button" class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2" data-target="1">
+          <span>←</span>
+          <span>Back: Course</span>
+        </button>
+        <button type="button" class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2" data-target="3">
+          <span>Next: Lab Reports</span>
+          <span>→</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==================== STEP 3: LAB REPORTS ==================== -->
+    <section id="step3" class="step-section space-y-6 hidden">
+
+      <!-- Helpful Student Tip Banner -->
+      <div class="bg-indigo-950/40 border border-indigo-900/50 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
+        <span class="text-xl shrink-0">💡</span>
+        <div class="text-xs sm:text-sm text-indigo-200 space-y-1">
+          <p><strong class="font-semibold text-white">Student Tip:</strong> Lab numbers are usually written as 01, 02, 03... or 1, 2, 3.</p>
+          <p class="text-indigo-300/80"><strong>Date helper:</strong> If you leave performance or submission dates blank, the cover page will print clean placeholders <code class="bg-indigo-900/50 px-1 py-0.5 rounded text-white">..../..../....</code> so you can write them by hand later.</p>
+        </div>
+      </div>
+
+      <!-- Quick Create Box (Obvious & Friendly) -->
+      <div class="bg-slate-800/90 border border-blue-900/50 rounded-2xl p-5 space-y-4 shadow-lg shadow-blue-950/20">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+            <span>⚡</span> Quick Create Multiple Reports
+          </h3>
+          <span class="text-[11px] text-blue-300 font-medium px-2 py-0.5 rounded bg-blue-950 border border-blue-800/50">Auto-Generates Sequential Reports</span>
+        </div>
+        <p class="text-xs text-slate-400">Need to generate cover pages for Lab 1 to 5? Set the numbers below and click generate.</p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-12 gap-3 items-end">
+          <div class="sm:col-span-3">
+            <label class="block text-xs font-medium text-slate-300 mb-1">From Lab No.</label>
+            <input type="number" id="quickStartNo" value="1" min="1" max="99" class="form-input w-full rounded-xl px-3 py-2 text-sm text-center font-bold">
+          </div>
+          <div class="sm:col-span-3">
+            <label class="block text-xs font-medium text-slate-300 mb-1">To Lab No.</label>
+            <input type="number" id="quickEndNo" value="3" min="1" max="99" class="form-input w-full rounded-xl px-3 py-2 text-sm text-center font-bold">
+          </div>
+          <div class="col-span-2 sm:col-span-4">
+            <label class="block text-xs font-medium text-slate-300 mb-1">Shared Topic Prefix (Optional)</label>
+            <input type="text" id="quickSharedTopic" placeholder="e.g. Lab Experiment" class="form-input w-full rounded-xl px-3 py-2 text-sm">
+          </div>
+          <div class="col-span-2 sm:col-span-2">
+            <button type="button" id="btnQuickGenerate" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm py-2.5 rounded-xl transition shadow-md active:scale-95">
+              + Generate
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reports List Header & Add Button -->
+      <div class="flex items-center justify-between pt-2">
+        <div>
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <span>📋</span> Your Lab Reports List
+          </h3>
+          <p class="text-xs text-slate-400">Each report below will produce an individual PDF cover page.</p>
+        </div>
+        <button type="button" id="btnAddReport" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition shadow-md active:scale-95">
+          <span>+</span>
+          <span>Add Lab Report</span>
+        </button>
+      </div>
+
+      <!-- Dynamic Reports Container -->
+      <div id="reportsContainer" class="space-y-3.5">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="reportsEmptyState" class="text-center py-12 px-4 rounded-2xl border border-dashed border-slate-700 bg-slate-800/30 space-y-3 hidden">
+        <span class="text-3xl">📝</span>
+        <h4 class="text-sm font-semibold text-slate-300">No lab reports added yet</h4>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">Click "Add Lab Report" above or use the Quick Create box to generate sequential reports in seconds.</p>
+        <button type="button" onclick="document.getElementById('btnAddReport').click()" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
+          + Add First Report
+        </button>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between gap-3 pt-2">
+        <button type="button" class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2" data-target="2">
+          <span>←</span>
+          <span>Back: Details</span>
+        </button>
+        <button type="button" class="btn-next bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-900/30 active:scale-95 flex items-center gap-2" data-target="4">
+          <span>Next: Preview & Download</span>
+          <span>→</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==================== STEP 4: PREVIEW & DOWNLOAD ==================== -->
+    <section id="step4" class="step-section space-y-6 hidden">
+
+      <!-- Action & Selector Bar -->
+      <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-4 sm:p-5 space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-700">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+              Select Lab Report to Preview
+            </label>
+            <select id="previewReportSelector" class="form-input rounded-xl px-3 py-2 text-sm font-medium w-full sm:w-80">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <!-- Total Count Badge -->
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <span>Total cover pages ready:</span>
+            <span id="readyCountBadge" class="font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800 px-2 py-0.5 rounded-full">3</span>
+          </div>
+        </div>
+
+        <!-- Download Buttons Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+          <!-- Download Selected -->
+          <button type="button" id="btnDownloadSingle" class="sm:col-span-2 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-4 py-3 rounded-xl shadow-lg shadow-blue-900/30 transition active:scale-95">
+            <span>📥</span>
+            <span>Download This PDF</span>
+          </button>
+
+          <!-- Download All (ZIP) -->
+          <button type="button" id="btnDownloadZip" class="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs sm:text-sm px-3 py-3 rounded-xl shadow-md transition active:scale-95" title="Download all reports bundled into a single ZIP archive">
+            <span>📦</span>
+            <span>Download All (ZIP)</span>
+          </button>
+
+          <!-- Download All One-by-One -->
+          <button type="button" id="btnDownloadAllSequential" class="inline-flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold text-xs sm:text-sm px-3 py-3 rounded-xl border border-slate-600 transition active:scale-95" title="Downloads each PDF file sequentially">
+            <span>⬇️</span>
+            <span>All (Individual)</span>
+          </button>
+        </div>
+
+        <!-- Print Shortcut & Sequential Progress bar -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1 text-xs text-slate-400">
+          <div class="flex items-center gap-2">
+            <button type="button" id="btnPrintPreview" class="hover:text-blue-400 transition underline underline-offset-4 flex items-center gap-1.5">
+              🖨️ Print Preview Dialog
+            </button>
+            <span>&bull;</span>
+            <span>Vector PDF (crisp at any zoom)</span>
+          </div>
+          <div id="sequentialProgress" class="text-xs font-semibold text-emerald-400 hidden">
+            <!-- Downloading 2 of 5... -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live A4 Preview Outer Container -->
+      <div class="preview-outer flex flex-col items-center">
+        <div class="w-full flex items-center justify-between px-2 mb-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Exact A4 Cover Page Preview</span>
+          <span class="text-xs text-slate-500">Matches exported PDF 1:1</span>
+        </div>
+
+        <!-- Scaling Viewport Container for mobile & desktop -->
+        <div id="previewContainer" class="w-full flex justify-center overflow-hidden transition-all duration-300">
+          
+          <!-- The White A4 Paper Sheet (always white!) -->
+          <div id="a4Sheet" class="a4-sheet p-10 flex flex-col justify-between text-black">
+            <!-- Exact Document Layout Rendered via JS -->
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between gap-3 pt-2">
+        <button type="button" class="btn-prev bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-sm px-5 py-3 rounded-xl border border-slate-700 transition active:scale-95 flex items-center gap-2" data-target="3">
+          <span>←</span>
+          <span>Back to Lab Reports</span>
+        </button>
+        <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-3 rounded-xl border border-slate-700 transition">
+          ↑ Back to Top
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-auto border-t border-slate-800 bg-slate-900/60 py-6 text-slate-400 text-xs">
+    <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div>
+        <p class="font-medium text-slate-300">
+          MBSTU Lab Report Cover Page Generator &bull; Version 3.0
+        </p>
+        <p class="text-slate-500 mt-0.5">
+          Built with ❤️ for students by <strong class="text-slate-300">Nomun Sheikh</strong> &bull; 
+          <a href="mailto:nomun.s@outlook.com" class="text-blue-400 hover:underline">nomun.s@outlook.com</a>
+        </p>
+      </div>
+      <div>
+        <button type="button" id="btnFooterAbout" class="text-xs text-blue-400 hover:text-blue-300 underline underline-offset-4">
+          About / Developer Info
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== ABOUT & DEVELOPER MODAL ==================== -->
+  <div id="aboutModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>ℹ️</span> About MBSTU Cover Generator
+        </h3>
+        <button type="button" id="btnCloseAbout" class="text-slate-400 hover:text-white text-lg p-1">✕</button>
+      </div>
+
+      <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+        <p>A free, open-source tool designed for Textile Engineering and engineering students at <strong>Mawlana Bhashani Science and Technology University (MBSTU)</strong> to create standardized, high-quality vector PDF cover pages quickly.</p>
+
+        <div class="bg-slate-800/80 rounded-xl p-3.5 space-y-1.5 text-xs border border-slate-700">
+          <p><strong class="text-white">Developer:</strong> Nomun Sheikh</p>
+          <p><strong class="text-white">Contact:</strong> <a href="mailto:nomun.s@outlook.com" class="text-blue-400 hover:underline">nomun.s@outlook.com</a></p>
+          <p><strong class="text-white">Version:</strong> 3.0 (Major Redesign)</p>
+          <p><strong class="text-white">Last Updated:</strong> November 2026</p>
+        </div>
+
+        <div class="text-xs text-slate-400 space-y-1">
+          <p class="font-semibold text-slate-300">🔒 100% Privacy Focused:</p>
+          <p>No backend, no analytics, no external servers. Everything runs entirely inside your browser, and data is safely stored in your local browser cache.</p>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button type="button" id="btnModalCloseOk" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm py-2.5 rounded-xl transition">
+          Got it
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    /**
+     * MBSTU Lab Report Cover Page Generator
+     * Self-contained vanilla JS application
+     * Version 3.0
+     */
+
+    // ──────────────────────────────────────────
+    // 1. CONSTANTS & STORAGE SCHEMA
+    // ──────────────────────────────────────────
+    const STORAGE_KEY = 'mbstu_cover_state_v3';
+    const LOGO_STORAGE_KEY = 'mbstu_cover_logo_v3';
+    const CURRENT_VERSION = 3;
+
+    // Fictional, safe example data (no real personal identifiers)
+    const EXAMPLE_STATE = {
+      version: CURRENT_VERSION,
+      courseTitle: 'Textile Testing and Quality Control-III (lab)',
+      courseCode: 'TXE 4112',
+      department: 'Textile Engineering',
+      session: '2018-19',
+      year: '4th',
+      semester: '1st',
+      studentName: 'Sheikh Nomun',
+      studentId: 'TE19021',
+      instructorName: 'Dr. Example Name',
+      instructorDesignation: 'Lecturer',
+      uniName: 'MAWLANA BHASHANI SCIENCE AND TECHNOLOGY UNIVERSITY',
+      uniAddress: 'Santosh, Tangail-1902',
+      fontSize: '12',
+      logoSize: 'medium',
+      showBorder: true,
+      reports: [
+        { id: 'rep_1', labNo: '01', topic: 'Determination of fabric GSM', perfDate: '', subDate: '' },
+        { id: 'rep_2', labNo: '02', topic: 'Yarn count measurement', perfDate: '', subDate: '' },
+        { id: 'rep_3', labNo: '03', topic: 'Fabric tensile strength test', perfDate: '', subDate: '' }
+      ]
+    };
+
+    // Default blank/starting state
+    const DEFAULT_STATE = {
+      version: CURRENT_VERSION,
+      courseTitle: '',
+      courseCode: '',
+      department: 'Textile Engineering',
+      session: '',
+      year: '4th',
+      semester: '1st',
+      studentName: '',
+      studentId: '',
+      instructorName: '',
+      instructorDesignation: 'Lecturer',
+      uniName: 'MAWLANA BHASHANI SCIENCE AND TECHNOLOGY UNIVERSITY',
+      uniAddress: 'Santosh, Tangail-1902',
+      fontSize: '12',
+      logoSize: 'medium',
+      showBorder: true,
+      reports: [
+        { id: 'rep_1', labNo: '01', topic: '', perfDate: '', subDate: '' }
+      ]
+    };
+
+    // Application state in memory
+    let appState = { ...DEFAULT_STATE };
+    let currentStep = 1;
+    let selectedReportId = null;
+    let logoData = null; // { dataUrl: string, aspect: number }
+
+    // ──────────────────────────────────────────
+    // 2. LOGO MANAGEMENT (Safe, local, resilient)
+    // ──────────────────────────────────────────
+    function loadSavedLogo() {
+      try {
+        const raw = localStorage.getItem(LOGO_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.dataUrl) {
+            logoData = parsed;
+            updateLogoPreviewUI();
+          }
+        }
+      } catch (err) {
+        console.warn('Could not load cached logo:', err);
+      }
+    }
+
+    function saveLogo(dataUrl, aspect) {
+      try {
+        logoData = { dataUrl, aspect: aspect || 1 };
+        localStorage.setItem(LOGO_STORAGE_KEY, JSON.stringify(logoData));
+        updateLogoPreviewUI();
+        renderPreview();
+        showToast('University logo saved ✓', '✓');
+      } catch (err) {
+        console.error('Failed to store logo in localStorage:', err);
+        showToast('Image too large to store in browser cache', '⚠️');
+      }
+    }
+
+    function removeLogo() {
+      logoData = null;
+      try {
+        localStorage.removeItem(LOGO_STORAGE_KEY);
+      } catch (e) {}
+      updateLogoPreviewUI();
+      renderPreview();
+      showToast('Logo removed', 'ℹ️');
+    }
+
+    function updateLogoPreviewUI() {
+      const imgEl = document.getElementById('logoPreviewImg');
+      const emptyEl = document.getElementById('logoEmptyText');
+      const removeBtn = document.getElementById('btnRemoveLogo');
+      
+      if (logoData && logoData.dataUrl) {
+        imgEl.src = logoData.dataUrl;
+        imgEl.classList.remove('hidden');
+        emptyEl.classList.add('hidden');
+        removeBtn.classList.remove('hidden');
+      } else {
+        imgEl.src = '';
+        imgEl.classList.add('hidden');
+        emptyEl.classList.remove('hidden');
+        removeBtn.classList.add('hidden');
+      }
+    }
+
+    function handleLogoFileUpload(file) {
+      if (!file) return;
+      if (!file.type.match(/^image\/(png|jpeg|jpg)$/)) {
+        showToast('Please upload a PNG or JPG image', '⚠️');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          try {
+            // Downscale to max 300px wide/high to save space & prevent memory lag
+            const maxDim = 300;
+            let w = img.naturalWidth || img.width;
+            let h = img.naturalHeight || img.height;
+            const aspect = w / h;
+
+            if (w > maxDim || h > maxDim) {
+              if (w > h) {
+                w = maxDim;
+                h = Math.round(maxDim / aspect);
+              } else {
+                h = maxDim;
+                w = Math.round(maxDim * aspect);
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+
+            const optimizedDataUrl = canvas.toDataURL('image/png', 0.85);
+            saveLogo(optimizedDataUrl, aspect);
+          } catch (err) {
+            console.error('Error optimizing logo:', err);
+            showToast('Failed to process image', '⚠️');
+          }
+        };
+        img.onerror = function() {
+          showToast('Corrupted image file', '⚠️');
+        };
+        img.src = e.target.result;
+      };
+      reader.onerror = function() {
+        showToast('Failed to read image file', '⚠️');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ──────────────────────────────────────────
+    // 3. STATE PERSISTENCE (LocalStorage)
+    // ──────────────────────────────────────────
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.version === CURRENT_VERSION) {
+            appState = { ...DEFAULT_STATE, ...parsed };
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Could not read state from localStorage, resetting:', err);
+      }
+      // Fallback: check if we should populate with example on first ever visit
+      appState = { ...EXAMPLE_STATE };
+    }
+
+    let saveTimeout = null;
+    function triggerAutoSave() {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        try {
+          appState.version = CURRENT_VERSION;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+          
+          // Visual feedback
+          const badge = document.getElementById('autoSaveBadge');
+          if (badge) {
+            badge.classList.remove('hidden');
+          }
+        } catch (err) {
+          console.error('Error saving state:', err);
+        }
+      }, 300);
+    }
+
+    // ──────────────────────────────────────────
+    // 4. TOAST NOTIFICATIONS
+    // ──────────────────────────────────────────
+    let toastTimer = null;
+    function showToast(message, icon = '✓', isError = false) {
+      const toast = document.getElementById('toast');
+      const msgEl = document.getElementById('toastMessage');
+      const iconEl = document.getElementById('toastIcon');
+
+      clearTimeout(toastTimer);
+      msgEl.textContent = message;
+      iconEl.textContent = icon;
+
+      if (isError) {
+        toast.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-xl shadow-2xl text-sm font-medium border bg-red-950 border-red-800 text-red-200 toast-show';
+      } else {
+        toast.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-xl shadow-2xl text-sm font-medium border bg-slate-900 border-slate-700 text-white toast-show';
+      }
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('toast-show');
+      }, 2500);
+    }
+
+    // ──────────────────────────────────────────
+    // 5. STEP NAVIGATION & PROGRESS
+    // ──────────────────────────────────────────
+    function goToStep(step) {
+      if (step < 1 || step > 4) return;
+
+      // Validate when going forward
+      if (step > currentStep) {
+        for (let s = currentStep; s < step; s++) {
+          if (!validateStep(s)) {
+            return; // stop on first invalid step
+          }
+        }
+      }
+
+      currentStep = step;
+
+      // Toggle sections
+      for (let i = 1; i <= 4; i++) {
+        const sec = document.getElementById(`step${i}`);
+        if (sec) sec.classList.toggle('hidden', i !== currentStep);
+      }
+
+      // Update progress bar tabs
+      const stepBtns = document.querySelectorAll('.step-btn');
+      stepBtns.forEach(btn => {
+        const s = parseInt(btn.dataset.step);
+        const numSpan = btn.querySelector('.step-num');
+        
+        if (s === currentStep) {
+          btn.className = 'step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-blue-600/10 border border-blue-500/40 text-blue-400';
+          numSpan.className = 'step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-blue-600 text-white shrink-0';
+          numSpan.textContent = s;
+        } else if (s < currentStep) {
+          btn.className = 'step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-emerald-950/20 border border-emerald-800/40 text-emerald-400';
+          numSpan.className = 'step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-emerald-600 text-white shrink-0';
+          numSpan.textContent = '✓';
+        } else {
+          btn.className = 'step-btn group text-left px-2 sm:px-3 py-2 rounded-xl transition flex items-center gap-2 sm:gap-3 bg-slate-800/40 border border-slate-800 text-slate-400 hover:border-slate-700';
+          numSpan.className = 'step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-400 shrink-0';
+          numSpan.textContent = s;
+        }
+      });
+
+      // Special actions on reaching Step 4
+      if (currentStep === 4) {
+        populateReportSelector();
+        renderPreview();
+        adjustPreviewScale();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ──────────────────────────────────────────
+    // 6. VALIDATION (Soft red, inline message)
+    // ──────────────────────────────────────────
+    function setFieldError(fieldId, errorMsg) {
+      const input = document.getElementById(fieldId);
+      if (!input) return;
+      input.classList.add('input-error');
+      const errEl = input.parentElement.querySelector('.error-msg');
+      if (errEl) {
+        errEl.textContent = errorMsg;
+        errEl.classList.remove('hidden');
+      }
+    }
+
+    function clearFieldError(fieldId) {
+      const input = document.getElementById(fieldId);
+      if (!input) return;
+      input.classList.remove('input-error');
+      const errEl = input.parentElement.querySelector('.error-msg');
+      if (errEl) {
+        errEl.textContent = '';
+        errEl.classList.add('hidden');
+      }
+    }
+
+    function validateStep(step) {
+      let valid = true;
+
+      if (step === 1) {
+        const required = [
+          { id: 'courseTitle', label: 'Please enter the course title' },
+          { id: 'courseCode', label: 'Please enter the course code' },
+          { id: 'department', label: 'Please enter your department' },
+          { id: 'session', label: 'Please enter your session' }
+        ];
+
+        required.forEach(({ id, label }) => {
+          const val = (document.getElementById(id).value || '').trim();
+          if (!val) {
+            setFieldError(id, label);
+            valid = false;
+          } else {
+            clearFieldError(id);
+          }
+        });
+
+        if (!valid) showToast('Please fill in the required course details', '⚠️', true);
+      }
+
+      if (step === 2) {
+        const required = [
+          { id: 'studentName', label: 'Please enter your full name' },
+          { id: 'studentId', label: 'Please enter your student ID' },
+          { id: 'instructorName', label: 'Please enter instructor name' },
+          { id: 'instructorDesignation', label: 'Please enter instructor designation' }
+        ];
+
+        required.forEach(({ id, label }) => {
+          const val = (document.getElementById(id).value || '').trim();
+          if (!val) {
+            setFieldError(id, label);
+            valid = false;
+          } else {
+            clearFieldError(id);
+          }
+        });
+
+        if (!valid) showToast('Please enter required student and teacher info', '⚠️', true);
+      }
+
+      if (step === 3) {
+        if (!appState.reports || appState.reports.length === 0) {
+          showToast('Please add at least one lab report', '⚠️', true);
+          return false;
+        }
+
+        // Check if any report has empty lab number or topic
+        let emptyReport = false;
+        appState.reports.forEach(r => {
+          if (!r.labNo.trim() || !r.topic.trim()) {
+            emptyReport = true;
+          }
+        });
+
+        if (emptyReport) {
+          showToast('Please enter both Lab No. and Topic for each report', '⚠️', true);
+          return false;
+        }
+      }
+
+      return valid;
+    }
+
+    // ──────────────────────────────────────────
+    // 7. FORM DATA BINDING
+    // ──────────────────────────────────────────
+    const textFields = [
+      'courseTitle', 'courseCode', 'department', 'session', 'year', 'semester',
+      'uniName', 'uniAddress', 'fontSize', 'logoSize',
+      'studentName', 'studentId', 'instructorName', 'instructorDesignation'
+    ];
+
+    function populateFormFromState() {
+      textFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && appState[id] !== undefined) {
+          el.value = appState[id];
+        }
+      });
+
+      const borderCb = document.getElementById('showBorder');
+      if (borderCb) {
+        borderCb.checked = appState.showBorder !== false;
+      }
+
+      renderReportsList();
+    }
+
+    function attachFormListeners() {
+      textFields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', (e) => {
+            appState[id] = e.target.value;
+            clearFieldError(id);
+            triggerAutoSave();
+            if (currentStep === 4) renderPreview();
+          });
+        }
+      });
+
+      const borderCb = document.getElementById('showBorder');
+      if (borderCb) {
+        borderCb.addEventListener('change', (e) => {
+          appState.showBorder = e.target.checked;
+          triggerAutoSave();
+          if (currentStep === 4) renderPreview();
+        });
+      }
+
+      // Keyboard navigation: Enter goes to next field; Ctrl/Cmd+S triggers save toast
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+          e.preventDefault();
+          triggerAutoSave();
+          showToast('Saved automatically ✓', '✓');
+        }
+      });
+    }
+
+    // ──────────────────────────────────────────
+    // 8. LAB REPORTS MANAGEMENT (Step 3)
+    // ──────────────────────────────────────────
+    function renderReportsList() {
+      const container = document.getElementById('reportsContainer');
+      const emptyState = document.getElementById('reportsEmptyState');
+      if (!container) return;
+
+      if (!appState.reports || appState.reports.length === 0) {
+        container.innerHTML = '';
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add('hidden');
+
+      container.innerHTML = appState.reports.map((rep, idx) => `
+        <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 space-y-3 transition hover:border-slate-600" data-report-id="${escapeHtml(rep.id)}">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-blue-600/20 text-blue-400 font-bold text-xs flex items-center justify-center border border-blue-500/20">
+                ${idx + 1}
+              </span>
+              <span class="text-xs font-semibold uppercase text-slate-400 tracking-wider">
+                Lab Report Entry
+              </span>
+            </div>
+            ${appState.reports.length > 1 ? `
+              <button type="button" class="btn-delete-report text-xs font-semibold text-red-400 hover:text-red-300 p-1.5 rounded-lg hover:bg-red-950/30 transition" data-id="${escapeHtml(rep.id)}" title="Delete this report">
+                🗑️ Delete
+              </button>
+            ` : ''}
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+            <!-- Lab No -->
+            <div class="sm:col-span-3">
+              <label class="block text-xs font-medium text-slate-300 mb-1">
+                Lab No. <span class="text-red-400">*</span>
+              </label>
+              <input type="text" value="${escapeHtml(rep.labNo)}" data-id="${escapeHtml(rep.id)}" data-field="labNo" class="rep-input form-input w-full rounded-xl px-3 py-2 text-sm font-semibold text-center" placeholder="e.g. 01">
+            </div>
+
+            <!-- Lab Topic -->
+            <div class="sm:col-span-9">
+              <label class="block text-xs font-medium text-slate-300 mb-1">
+                Lab Topic / Title <span class="text-red-400">*</span>
+              </label>
+              <input type="text" value="${escapeHtml(rep.topic)}" data-id="${escapeHtml(rep.id)}" data-field="topic" class="rep-input form-input w-full rounded-xl px-3 py-2 text-sm" placeholder="e.g. Determination of fabric GSM">
+            </div>
+
+            <!-- Date of Performance -->
+            <div class="sm:col-span-6">
+              <label class="block text-xs font-medium text-slate-300 mb-1">
+                Date of Performance (Optional)
+              </label>
+              <input type="date" value="${escapeHtml(rep.perfDate || '')}" data-id="${escapeHtml(rep.id)}" data-field="perfDate" class="rep-input form-input w-full rounded-xl px-3 py-2 text-sm">
+            </div>
+
+            <!-- Date of Submission -->
+            <div class="sm:col-span-6">
+              <label class="block text-xs font-medium text-slate-300 mb-1">
+                Date of Submission (Optional)
+              </label>
+              <input type="date" value="${escapeHtml(rep.subDate || '')}" data-id="${escapeHtml(rep.id)}" data-field="subDate" class="rep-input form-input w-full rounded-xl px-3 py-2 text-sm">
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addLabReport(labNo = '', topic = '', perfDate = '', subDate = '') {
+      // Auto-compute next number if blank
+      if (!labNo) {
+        let maxNum = 0;
+        appState.reports.forEach(r => {
+          const n = parseInt(r.labNo);
+          if (!isNaN(n) && n > maxNum) maxNum = n;
+        });
+        const next = maxNum + 1;
+        labNo = next < 10 ? `0${next}` : `${next}`;
+      }
+
+      const newId = 'rep_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
+      appState.reports.push({
+        id: newId,
+        labNo: String(labNo),
+        topic: topic || '',
+        perfDate: perfDate || '',
+        subDate: subDate || ''
+      });
+
+      renderReportsList();
+      triggerAutoSave();
+      showToast(`Added Lab Report #${labNo}`, '✓');
+    }
+
+    function deleteLabReport(id) {
+      if (appState.reports.length <= 1) {
+        showToast('You must keep at least one lab report', '⚠️', true);
+        return;
+      }
+      appState.reports = appState.reports.filter(r => r.id !== id);
+      renderReportsList();
+      triggerAutoSave();
+      showToast('Lab report deleted', 'ℹ️');
+    }
+
+    function handleQuickGenerate() {
+      const start = parseInt(document.getElementById('quickStartNo').value) || 1;
+      const end = parseInt(document.getElementById('quickEndNo').value) || 1;
+      const prefix = (document.getElementById('quickSharedTopic').value || '').trim();
+
+      if (end < start) {
+        showToast('Ending number must be greater than or equal to start number', '⚠️', true);
+        return;
+      }
+      if (end - start > 40) {
+        showToast('Maximum 40 reports at one time', '⚠️', true);
+        return;
+      }
+
+      for (let i = start; i <= end; i++) {
+        const numStr = i < 10 ? `0${i}` : `${i}`;
+        const topicStr = prefix ? `${prefix} #${i}` : '';
+        addLabReport(numStr, topicStr, '', '');
+      }
+
+      showToast(`Generated reports from No. ${start} to ${end} ✓`, '⚡');
+    }
+
+    // Event delegation for report inputs and delete buttons
+    document.addEventListener('input', (e) => {
+      if (e.target.classList.contains('rep-input')) {
+        const id = e.target.dataset.id;
+        const field = e.target.dataset.field;
+        const rep = appState.reports.find(r => r.id === id);
+        if (rep && field) {
+          rep[field] = e.target.value;
+          triggerAutoSave();
+        }
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      const delBtn = e.target.closest('.btn-delete-report');
+      if (delBtn) {
+        const id = delBtn.dataset.id;
+        deleteLabReport(id);
+      }
+    });
+
+    // ──────────────────────────────────────────
+    // 9. ONE LAYOUT SPECIFICATION (PDF & HTML)
+    // ──────────────────────────────────────────
+    /**
+     * Helper to format dates cleanly:
+     * If empty -> '..../..../....'
+     * If valid ISO date -> 'DD/MM/YYYY'
+     */
+    function formatReportDate(isoStr) {
+      if (!isoStr || !isoStr.trim()) return '..../..../....';
+      try {
+        const [y, m, d] = isoStr.split('-');
+        if (y && m && d) return `${d}/${m}/${y}`;
+      } catch (e) {}
+      return isoStr;
+    }
+
+    function getSelectedReport() {
+      if (!appState.reports || appState.reports.length === 0) return null;
+      let rep = appState.reports.find(r => r.id === selectedReportId);
+      if (!rep) rep = appState.reports[0];
+      return rep;
+    }
+
+    function populateReportSelector() {
+      const sel = document.getElementById('previewReportSelector');
+      const badge = document.getElementById('readyCountBadge');
+      if (!sel) return;
+
+      if (badge) badge.textContent = appState.reports.length;
+
+      sel.innerHTML = appState.reports.map((r, idx) => {
+        const topicPreview = r.topic ? ` - ${r.topic.substring(0, 30)}${r.topic.length > 30 ? '...' : ''}` : ' (No topic)';
+        return `<option value="${escapeHtml(r.id)}">Lab #${escapeHtml(r.labNo || String(idx+1))}${escapeHtml(topicPreview)}</option>`;
+      }).join('');
+
+      if (!selectedReportId || !appState.reports.some(r => r.id === selectedReportId)) {
+        selectedReportId = appState.reports[0] ? appState.reports[0].id : null;
+      }
+      sel.value = selectedReportId;
+    }
+
+    /**
+     * Renders the White A4 Sheet using exact mm ratios matching the PDF
+     */
+    function renderPreview() {
+      const sheet = document.getElementById('a4Sheet');
+      if (!sheet) return;
+
+      const rep = getSelectedReport();
+      if (!rep) {
+        sheet.innerHTML = `<div class="flex items-center justify-center h-full text-slate-400 font-sans">No lab report available to preview.</div>`;
+        return;
+      }
+
+      const st = appState;
+      const baseFontSize = parseInt(st.fontSize) || 12;
+
+      // Logo sizing in mm
+      let logoHMM = 28;
+      if (st.logoSize === 'small') logoHMM = 22;
+      if (st.logoSize === 'large') logoHMM = 34;
+
+      // Outer border styling
+      const borderClass = st.showBorder !== false ? 'border-2 border-black' : '';
+
+      // Logo HTML (preserve aspect ratio or show neat placeholder)
+      let logoHtml = '';
+      if (logoData && logoData.dataUrl) {
+        logoHtml = `
+          <div class="flex justify-center mb-3">
+            <img src="${logoData.dataUrl}" style="height: ${logoHMM}mm; width: auto; max-width: 60mm;" class="object-contain" alt="MBSTU Logo">
+          </div>
+        `;
+      } else {
+        logoHtml = `
+          <div class="flex justify-center mb-3">
+            <div class="border border-dashed border-gray-400 rounded px-4 py-3 text-center text-gray-500 text-xs font-sans">
+              [ Upload university logo in Step 1 ]
+            </div>
+          </div>
+        `;
+      }
+
+      sheet.innerHTML = `
+        <div class="w-full h-full p-8 flex flex-col justify-between ${borderClass} bg-white text-black" style="box-sizing: border-box;">
+          
+          <!-- TOP SECTION: Logo, University, LAB REPORT, Details -->
+          <div class="space-y-3">
+            
+            <!-- 1. Logo -->
+            ${logoHtml}
+
+            <!-- 2. University Name -->
+            <div class="text-center">
+              <h1 class="font-bold uppercase tracking-wider text-black" style="font-size: ${baseFontSize + 3}pt; line-height: 1.25;">
+                ${escapeHtml(st.uniName || 'MAWLANA BHASHANI SCIENCE AND TECHNOLOGY UNIVERSITY')}
+              </h1>
+              <!-- 3. University Address -->
+              <p class="text-black mt-1" style="font-size: ${baseFontSize - 1}pt;">
+                ${escapeHtml(st.uniAddress || 'Santosh, Tangail-1902')}
+              </p>
+            </div>
+
+            <!-- 4. LAB REPORT Title with Double Line -->
+            <div class="text-center my-4">
+              <div class="inline-block px-8 py-1.5" style="border-top: 3px double #000; border-bottom: 3px double #000;">
+                <h2 class="font-bold tracking-widest text-black" style="font-size: ${baseFontSize + 9}pt; letter-spacing: 2px;">
+                  LAB REPORT
+                </h2>
+              </div>
+            </div>
+
+            <!-- 5, 6, 7, 8. Report Details (Centered) -->
+            <div class="text-center space-y-2 pt-1" style="font-size: ${baseFontSize}pt;">
+              
+              <!-- Lab report no -->
+              <div>
+                <span class="font-bold">Lab report no:</span>
+                <span class="font-bold ml-2 underline underline-offset-4" style="font-size: ${baseFontSize + 4}pt;">
+                  ${escapeHtml(rep.labNo || '01')}
+                </span>
+              </div>
+
+              <!-- Lab report on -->
+              <div class="max-w-xl mx-auto px-4">
+                <span class="font-bold">Lab report on:</span>
+                <p class="italic text-black font-normal mt-0.5 leading-snug" style="font-size: ${baseFontSize + 1}pt;">
+                  ${escapeHtml(rep.topic || '(Topic not specified)')}
+                </p>
+              </div>
+
+              <!-- Course Title -->
+              <div>
+                <span class="font-bold">Course title:</span>
+                <span class="ml-1">${escapeHtml(st.courseTitle || '...')}</span>
+              </div>
+
+              <!-- Course Code -->
+              <div>
+                <span class="font-bold">Course code:</span>
+                <span class="ml-1">${escapeHtml(st.courseCode || '...')}</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- BOTTOM SECTION: Side-by-side Boxes & Dates -->
+          <div class="space-y-3 pt-4">
+
+            <!-- 9. Two Side-by-Side Boxes -->
+            <div class="grid grid-cols-2 gap-3" style="font-size: ${baseFontSize - 0.5}pt;">
+              
+              <!-- Left Box: Submitted By -->
+              <div class="border border-black p-3.5 space-y-1">
+                <p class="font-bold text-black pb-1 mb-1 border-b border-black" style="font-size: ${baseFontSize + 1}pt;">
+                  Submitted By…
+                </p>
+                <p><span class="font-semibold">Name:</span> ${escapeHtml(st.studentName || '...')}</p>
+                <p><span class="font-semibold">ID No:</span> ${escapeHtml(st.studentId || '...')}</p>
+                <p><span class="font-semibold">Session:</span> ${escapeHtml(st.session || '...')}</p>
+                <p><span class="font-semibold">Year:</span> ${escapeHtml(st.year || '4th')}, <span class="font-semibold">Semester:</span> ${escapeHtml(st.semester || '1st')}</p>
+                <p class="pt-1">Department of ${escapeHtml(st.department || 'Textile Engineering')},</p>
+                <p>${escapeHtml(st.uniName || 'Mawlana Bhashani Science and Technology University')}</p>
+              </div>
+
+              <!-- Right Box: Submitted To -->
+              <div class="border border-black p-3.5 space-y-1">
+                <p class="font-bold text-black pb-1 mb-1 border-b border-black" style="font-size: ${baseFontSize + 1}pt;">
+                  Submitted To…
+                </p>
+                <p class="font-bold text-black" style="font-size: ${baseFontSize + 0.5}pt;">
+                  ${escapeHtml(st.instructorName || '...')}
+                </p>
+                <p>${escapeHtml(st.instructorDesignation || 'Lecturer')},</p>
+                <p>Department of ${escapeHtml(st.department || 'Textile Engineering')},</p>
+                <p>${escapeHtml(st.uniName || 'Mawlana Bhashani Science and Technology University')}</p>
+              </div>
+
+            </div>
+
+            <!-- 10. Full Width Dates Box -->
+            <div class="border border-black px-4 py-2.5 flex items-center justify-between" style="font-size: ${baseFontSize - 1}pt;">
+              <div>
+                <span class="font-bold">Date of performance:</span>
+                <span class="ml-1">${formatReportDate(rep.perfDate)}</span>
+              </div>
+              <div>
+                <span class="font-bold">Date of submission:</span>
+                <span class="ml-1">${formatReportDate(rep.subDate)}</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    }
+
+    /**
+     * Adjusts the CSS transform scale of the A4 sheet so it fits on mobile without horizontal scroll
+     */
+    function adjustPreviewScale() {
+      const container = document.getElementById('previewContainer');
+      const sheet = document.getElementById('a4Sheet');
+      if (!container || !sheet) return;
+
+      const containerWidth = container.clientWidth - 16;
+      const sheetWidth = 794; // approx A4 width at 96 DPI
+      const scale = Math.min(1, Math.max(0.3, containerWidth / sheetWidth));
+
+      sheet.style.transform = `scale(${scale})`;
+      sheet.style.transformOrigin = 'top center';
+
+      const sheetHeight = 1123 * scale;
+      container.style.height = `${sheetHeight + 20}px`;
+    }
+
+    window.addEventListener('resize', adjustPreviewScale);
+
+    // ──────────────────────────────────────────
+    // 10. VECTOR PDF GENERATOR (jsPDF 1:1 match)
+    // ──────────────────────────────────────────
+    function createVectorPDF(rep) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      
+      const st = appState;
+      const pw = 210, ph = 297;
+      const baseFontSize = parseInt(st.fontSize) || 12;
+
+      // Page border: consistent 10mm margin
+      if (st.showBorder !== false) {
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.6);
+        doc.rect(10, 10, pw - 20, ph - 20);
+      }
+
+      let y = 16;
+
+      // 1. Logo
+      let logoHMM = 28;
+      if (st.logoSize === 'small') logoHMM = 22;
+      if (st.logoSize === 'large') logoHMM = 34;
+
+      if (logoData && logoData.dataUrl) {
+        try {
+          const aspect = logoData.aspect || 1;
+          const logoWMM = logoHMM * aspect;
+          const logoX = (pw - logoWMM) / 2;
+          doc.addImage(logoData.dataUrl, 'PNG', logoX, y, logoWMM, logoHMM);
+          y += logoHMM + 4;
+        } catch (e) {
+          console.warn('Could not render logo in PDF, skipping:', e);
+          y += 6;
+        }
+      } else {
+        // Neat placeholder box matching instructions
+        const boxW = 34, boxH = 16;
+        const boxX = (pw - boxW) / 2;
+        doc.setDrawColor(180, 180, 180);
+        doc.setLineDashPattern([1, 1], 0);
+        doc.rect(boxX, y, boxW, boxH);
+        doc.setLineDashPattern([], 0);
+        doc.setFont('times', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(140, 140, 140);
+        doc.text('Upload logo', 105, y + 9.5, { align: 'center' });
+        doc.setTextColor(0, 0, 0);
+        y += boxH + 5;
+      }
+
+      // 2. University Name Header (Bold, uppercase)
+      doc.setFont('times', 'bold');
+      doc.setFontSize(baseFontSize + 2.5);
+      const uniLines = doc.splitTextToSize(st.uniName || 'MAWLANA BHASHANI SCIENCE AND TECHNOLOGY UNIVERSITY', 170);
+      uniLines.forEach(line => {
+        doc.text(line, 105, y, { align: 'center' });
+        y += 5.5;
+      });
+
+      // 3. University Address
+      doc.setFont('times', 'normal');
+      doc.setFontSize(baseFontSize - 1.5);
+      doc.text(st.uniAddress || 'Santosh, Tangail-1902', 105, y, { align: 'center' });
+      y += 8;
+
+      // 4. "LAB REPORT" with double-line decoration
+      doc.setFont('times', 'bold');
+      doc.setFontSize(baseFontSize + 9);
+      const titleText = 'LAB REPORT';
+      doc.text(titleText, 105, y, { align: 'center' });
+
+      const textWidth = doc.getTextWidth(titleText);
+      const pad = 12;
+      const x1 = (pw - textWidth) / 2 - pad;
+      const x2 = (pw + textWidth) / 2 + pad;
+
+      doc.setDrawColor(0, 0, 0);
+      doc.setLineWidth(0.4);
+      // Double line above
+      doc.line(x1, y - 9.5, x2, y - 9.5);
+      doc.line(x1, y - 8.3, x2, y - 8.3);
+      // Double line below
+      doc.line(x1, y + 2.5, x2, y + 2.5);
+      doc.line(x1, y + 3.7, x2, y + 3.7);
+
+      y += 13;
+
+      // 5. Lab report no
+      doc.setFont('times', 'bold');
+      doc.setFontSize(baseFontSize);
+      doc.text('Lab report no:', 105, y, { align: 'center' });
+      y += 6;
+
+      doc.setFontSize(baseFontSize + 5);
+      doc.text(String(rep.labNo || '01'), 105, y, { align: 'center' });
+      const noWidth = doc.getTextWidth(String(rep.labNo || '01'));
+      doc.setLineWidth(0.3);
+      doc.line(105 - (noWidth/2) - 2, y + 1.5, 105 + (noWidth/2) + 2, y + 1.5);
+      y += 9;
+
+      // 6. Lab report on (topic in italics, max 3 lines)
+      doc.setFont('times', 'bold');
+      doc.setFontSize(baseFontSize);
+      doc.text('Lab report on:', 105, y, { align: 'center' });
+      y += 5.5;
+
+      doc.setFont('times', 'italic');
+      doc.setFontSize(baseFontSize + 0.5);
+      const topicLines = doc.splitTextToSize(rep.topic || '(Topic not specified)', 150).slice(0, 3);
+      topicLines.forEach(line => {
+        doc.text(line, 105, y, { align: 'center' });
+        y += 5;
+      });
+      y += 3;
+
+      // 7. Course title
+      doc.setFont('times', 'bold');
+      doc.setFontSize(baseFontSize);
+      const cTitle = `Course title: ${st.courseTitle || '...'}`;
+      doc.text(cTitle, 105, y, { align: 'center' });
+      y += 5.5;
+
+      // 8. Course code
+      const cCode = `Course code: ${st.courseCode || '...'}`;
+      doc.text(cCode, 105, y, { align: 'center' });
+      y += 12;
+
+      // 9. Two Side-by-Side Boxes (Submitted By & Submitted To)
+      const boxY = y;
+      const boxW = 87; // (180 usable width - 6 gap) / 2
+      const boxX1 = 15;
+      const boxX2 = 108;
+      const cellPad = 4;
+
+      // Calculate lines for Left Box
+      const leftLines = [
+        { text: 'Submitted By…', bold: true, size: baseFontSize + 1 },
+        { text: `Name: ${st.studentName || '...'}`, bold: false, size: baseFontSize - 0.5 },
+        { text: `ID No: ${st.studentId || '...'}`, bold: false, size: baseFontSize - 0.5 },
+        { text: `Session: ${st.session || '...'}`, bold: false, size: baseFontSize - 0.5 },
+        { text: `Year: ${st.year || '4th'}, Semester: ${st.semester || '1st'}`, bold: false, size: baseFontSize - 0.5 },
+        { text: `Department of ${st.department || 'Textile Engineering'},`, bold: false, size: baseFontSize - 0.5 },
+        { text: st.uniName || 'Mawlana Bhashani Science and Technology University', bold: false, size: baseFontSize - 0.5 }
+      ];
+
+      // Calculate lines for Right Box
+      const rightLines = [
+        { text: 'Submitted To…', bold: true, size: baseFontSize + 1 },
+        { text: st.instructorName || '...', bold: true, size: baseFontSize },
+        { text: `${st.instructorDesignation || 'Lecturer'},`, bold: false, size: baseFontSize - 0.5 },
+        { text: `Department of ${st.department || 'Textile Engineering'},`, bold: false, size: baseFontSize - 0.5 },
+        { text: st.uniName || 'Mawlana Bhashani Science and Technology University', bold: false, size: baseFontSize - 0.5 }
+      ];
+
+      // Dynamic height calculation so text never clips
+      const calcBoxH = (lines) => {
+        let totalH = cellPad * 2;
+        lines.forEach(l => {
+          totalH += (l.size * 0.45) + 2.5;
+        });
+        return totalH;
+      };
+
+      const boxH = Math.max(calcBoxH(leftLines), calcBoxH(rightLines), 52);
+
+      // Draw box frames
+      doc.setDrawColor(0, 0, 0);
+      doc.setLineWidth(0.4);
+      doc.rect(boxX1, boxY, boxW, boxH);
+      doc.rect(boxX2, boxY, boxW, boxH);
+
+      // Render Left Box Text
+      let curY1 = boxY + cellPad + 4;
+      leftLines.forEach((l, i) => {
+        doc.setFont('times', l.bold ? 'bold' : 'normal');
+        doc.setFontSize(l.size);
+        const wrapped = doc.splitTextToSize(l.text, boxW - (cellPad * 2));
+        wrapped.forEach(wline => {
+          doc.text(wline, boxX1 + cellPad, curY1);
+          curY1 += (l.size * 0.4) + 2;
+        });
+        if (i === 0) curY1 += 1.5; // slight spacer after header
+      });
+
+      // Render Right Box Text
+      let curY2 = boxY + cellPad + 4;
+      rightLines.forEach((l, i) => {
+        doc.setFont('times', l.bold ? 'bold' : 'normal');
+        doc.setFontSize(l.size);
+        const wrapped = doc.splitTextToSize(l.text, boxW - (cellPad * 2));
+        wrapped.forEach(wline => {
+          doc.text(wline, boxX2 + cellPad, curY2);
+          curY2 += (l.size * 0.4) + 2;
+        });
+        if (i === 0) curY2 += 1.5;
+      });
+
+      y = boxY + boxH + 4;
+
+      // 10. Dates Box (full width)
+      const datesBoxH = 11;
+      doc.rect(boxX1, y, pw - 30, datesBoxH);
+      doc.setFont('times', 'normal');
+      doc.setFontSize(baseFontSize - 1);
+      
+      const perfText = `Date of performance: ${formatReportDate(rep.perfDate)}`;
+      const subText = `Date of submission: ${formatReportDate(rep.subDate)}`;
+
+      doc.text(perfText, boxX1 + cellPad, y + 7);
+      doc.text(subText, boxX2 + cellPad, y + 7);
+
+      return doc;
+    }
+
+    // Filename helper: Lab_08_TXE4112_CoverPage.pdf
+    function makeFilename(rep) {
+      const cleanLab = String(rep.labNo || '01').padStart(2, '0').replace(/[^a-zA-Z0-9_-]/g, '');
+      const cleanCourse = (appState.courseCode || 'Report').replace(/[^a-zA-Z0-9_-]/g, '');
+      return `Lab_${cleanLab}_${cleanCourse}_CoverPage.pdf`;
+    }
+
+    // ──────────────────────────────────────────
+    // 11. DOWNLOAD ACTIONS
+    // ──────────────────────────────────────────
+    function downloadSinglePDF() {
+      const rep = getSelectedReport();
+      if (!rep) return;
+      try {
+        const doc = createVectorPDF(rep);
+        const filename = makeFilename(rep);
+        doc.save(filename);
+        showToast(`Downloaded ${filename} ✓`, '📥');
+      } catch (err) {
+        console.error('PDF error:', err);
+        showToast('Error generating PDF', '⚠️', true);
+      }
+    }
+
+    // Sequential downloads with progress indicator
+    async function downloadAllSequential() {
+      const reports = appState.reports;
+      if (!reports || reports.length === 0) return;
+
+      const progressEl = document.getElementById('sequentialProgress');
+      progressEl.classList.remove('hidden');
+
+      for (let i = 0; i < reports.length; i++) {
+        const rep = reports[i];
+        progressEl.textContent = `Downloading ${i + 1} of ${reports.length}: Lab #${rep.labNo}...`;
+        
+        try {
+          const doc = createVectorPDF(rep);
+          doc.save(makeFilename(rep));
+        } catch (e) {
+          console.error(e);
+        }
+
+        // 700ms delay between downloads so browser doesn't block them
+        await new Promise(r => setTimeout(r, 700));
+      }
+
+      progressEl.textContent = `All ${reports.length} downloads complete ✓`;
+      setTimeout(() => progressEl.classList.add('hidden'), 3500);
+      showToast(`Finished downloading all ${reports.length} PDFs ✓`, '🎉');
+    }
+
+    // Bundled ZIP download using JSZip
+    async function downloadAllZip() {
+      const reports = appState.reports;
+      if (!reports || reports.length === 0) return;
+
+      const progressEl = document.getElementById('sequentialProgress');
+      progressEl.classList.remove('hidden');
+      progressEl.textContent = 'Building ZIP package...';
+
+      try {
+        const zip = new JSZip();
+
+        for (let i = 0; i < reports.length; i++) {
+          const rep = reports[i];
+          progressEl.textContent = `Adding ${i + 1} of ${reports.length} to ZIP...`;
+          const doc = createVectorPDF(rep);
+          const pdfBlob = doc.output('blob');
+          zip.file(makeFilename(rep), pdfBlob);
+        }
+
+        progressEl.textContent = 'Compressing ZIP...';
+        const zipContent = await zip.generateAsync({ type: 'blob' });
+        
+        const cleanCourse = (appState.courseCode || 'MBSTU').replace(/[^a-zA-Z0-9_-]/g, '');
+        const zipName = `${cleanCourse}_All_Lab_Cover_Pages.zip`;
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(zipContent);
+        link.download = zipName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+
+        progressEl.textContent = 'ZIP Downloaded ✓';
+        setTimeout(() => progressEl.classList.add('hidden'), 3500);
+        showToast('All cover pages downloaded in ZIP archive ✓', '📦');
+      } catch (err) {
+        console.error('ZIP Error:', err);
+        showToast('Failed to create ZIP archive, trying sequential download...', '⚠️', true);
+        downloadAllSequential();
+      }
+    }
+
+    // ──────────────────────────────────────────
+    // 12. UTILITY & EVENT WIRING
+    // ──────────────────────────────────────────
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function initEvents() {
+      // Step buttons (top progress bar)
+      document.querySelectorAll('.step-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          goToStep(parseInt(btn.dataset.step));
+        });
+      });
+
+      // Next / Back buttons
+      document.querySelectorAll('.btn-next').forEach(btn => {
+        btn.addEventListener('click', () => {
+          goToStep(parseInt(btn.dataset.target));
+        });
+      });
+      document.querySelectorAll('.btn-prev').forEach(btn => {
+        btn.addEventListener('click', () => {
+          goToStep(parseInt(btn.dataset.target));
+        });
+      });
+
+      // Try with example data
+      document.getElementById('btnTryExample').addEventListener('click', () => {
+        appState = JSON.parse(JSON.stringify(EXAMPLE_STATE));
+        populateFormFromState();
+        triggerAutoSave();
+        showToast('Filled with example data ✓', '💡');
+        if (currentStep === 4) {
+          populateReportSelector();
+          renderPreview();
+        }
+      });
+
+      // Start fresh
+      document.getElementById('btnStartFresh').addEventListener('click', () => {
+        if (confirm('Start fresh? This will clear all entered form details and the logo.')) {
+          appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+          removeLogo();
+          populateFormFromState();
+          triggerAutoSave();
+          goToStep(1);
+          showToast('Form cleared completely ✓', '🗑️');
+        }
+      });
+
+      // Logo File Input
+      const fileInp = document.getElementById('logoFileInput');
+      fileInp.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleLogoFileUpload(e.target.files[0]);
+          e.target.value = ''; // reset so same file can be re-uploaded if needed
+        }
+      });
+
+      // Logo Remove
+      document.getElementById('btnRemoveLogo').addEventListener('click', removeLogo);
+
+      // Lab Reports Step actions
+      document.getElementById('btnAddReport').addEventListener('click', () => addLabReport());
+      document.getElementById('btnQuickGenerate').addEventListener('click', handleQuickGenerate);
+
+      // Step 4 selector
+      const previewSel = document.getElementById('previewReportSelector');
+      if (previewSel) {
+        previewSel.addEventListener('change', (e) => {
+          selectedReportId = e.target.value;
+          renderPreview();
+        });
+      }
+
+      // Download buttons
+      document.getElementById('btnDownloadSingle').addEventListener('click', downloadSinglePDF);
+      document.getElementById('btnDownloadZip').addEventListener('click', downloadAllZip);
+      document.getElementById('btnDownloadAllSequential').addEventListener('click', downloadAllSequential);
+      document.getElementById('btnPrintPreview').addEventListener('click', () => window.print());
+
+      // About Modal
+      const aboutModal = document.getElementById('aboutModal');
+      const openAbout = () => aboutModal.classList.remove('hidden');
+      const closeAbout = () => aboutModal.classList.add('hidden');
+
+      document.getElementById('btnOpenAbout').addEventListener('click', openAbout);
+      document.getElementById('btnFooterAbout').addEventListener('click', openAbout);
+      document.getElementById('btnCloseAbout').addEventListener('click', closeAbout);
+      document.getElementById('btnModalCloseOk').addEventListener('click', closeAbout);
+      aboutModal.addEventListener('click', (e) => {
+        if (e.target === aboutModal) closeAbout();
+      });
+    }
+
+    // ──────────────────────────────────────────
+    // 13. APP INITIALIZATION
+    // ──────────────────────────────────────────
+    function init() {
+      loadState();
+      loadSavedLogo();
+      populateFormFromState();
+      attachFormListeners();
+      initEvents();
+      goToStep(1);
+    }
+
+    // Run when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
