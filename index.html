@@ -227,7 +227,7 @@
           <span class="step-num w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold bg-slate-800 text-slate-300 shrink-0">3</span>
           <div class="truncate">
             <span class="block text-[11px] text-slate-500 uppercase font-semibold tracking-wider hidden sm:block">Step 3</span>
-            <span class="block text-xs sm:text-sm font-semibold truncate">Reports</span>
+            <span class="block text-xs sm:text-sm font-semibold truncate" id="step3TabLabel">Reports</span>
           </div>
         </button>
 
@@ -505,10 +505,30 @@
     <!-- ==================== STEP 3: LAB REPORTS ==================== -->
     <section id="step3" class="step-section space-y-6 hidden">
 
+      <!-- Document Type Switcher (Lab Report vs Assignment) -->
+      <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-4 sm:p-5 shadow-lg">
+        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+          Select Document Type
+        </label>
+        <div class="grid grid-cols-2 gap-3 max-w-md">
+          <button type="button" id="docTypeLab" class="doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-md active:scale-95 bg-blue-600/20 border-blue-500 text-white">
+            <span class="text-base">🧪</span>
+            <span>Lab Report</span>
+          </button>
+          <button type="button" id="docTypeAssignment" class="doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-sm active:scale-95 bg-slate-900 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600">
+            <span class="text-base">📝</span>
+            <span>Assignment</span>
+          </button>
+        </div>
+        <p id="docTypeHelp" class="text-xs text-slate-400 mt-2.5">
+          Generating cover pages for <strong>Lab Reports</strong> (prints &quot;LAB REPORT&quot;, &quot;Lab report no:&quot;, &quot;Lab report on:&quot;).
+        </p>
+      </div>
+
       <!-- Helpful Student Tip Banner -->
       <div class="bg-indigo-950/40 border border-indigo-900/50 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
         <span class="text-xl shrink-0">💡</span>
-        <div class="text-xs sm:text-sm text-indigo-200 space-y-1">
+        <div id="step3TipText" class="text-xs sm:text-sm text-indigo-200 space-y-1">
           <p><strong class="font-semibold text-white">Student Tip:</strong> Lab numbers are usually written as 01, 02, 03... or 1, 2, 3.</p>
           <p class="text-indigo-300/80"><strong>Date helper:</strong> If you leave performance or submission dates blank, the cover page will print clean placeholders <code class="bg-indigo-900/50 px-1 py-0.5 rounded text-white">..../..../....</code> so you can write them by hand later.</p>
         </div>
@@ -517,16 +537,16 @@
       <!-- Quick Create Box (Obvious & Friendly) -->
       <div class="bg-slate-800/90 border border-blue-900/50 rounded-2xl p-5 space-y-4 shadow-lg shadow-blue-950/20">
         <div class="flex items-center justify-between">
-          <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+          <h3 id="quickCreateTitle" class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
             <span>⚡</span> Quick Create Multiple Reports
           </h3>
-          <span class="text-[11px] text-blue-300 font-medium px-2 py-0.5 rounded bg-blue-950 border border-blue-800/50">Auto-Generates Sequential Reports</span>
+          <span id="quickCreateBadge" class="text-[11px] text-blue-300 font-medium px-2 py-0.5 rounded bg-blue-950 border border-blue-800/50">Auto-Generates Sequential Reports</span>
         </div>
-        <p class="text-xs text-slate-400">Need to generate cover pages for Lab 1 to 5? Set the numbers below and click generate.</p>
+        <p id="quickCreateDesc" class="text-xs text-slate-400">Need to generate cover pages for Lab 1 to 5? Set the numbers below and click generate.</p>
 
         <div class="grid grid-cols-2 sm:grid-cols-12 gap-3 items-end">
           <div class="sm:col-span-3">
-            <label class="block text-xs font-medium text-slate-300 mb-1">From Lab No.</label>
+            <label id="quickStartLabel" class="block text-xs font-medium text-slate-300 mb-1">From Lab No.</label>
             <input type="number" id="quickStartNo" value="1" min="1" max="99" class="form-input w-full rounded-xl px-3 py-2 text-sm text-center font-bold">
           </div>
           <div class="sm:col-span-3">
@@ -548,10 +568,10 @@
       <!-- Reports List Header & Add Button -->
       <div class="flex items-center justify-between pt-2">
         <div>
-          <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <h3 id="reportsListTitle" class="text-base font-bold text-white flex items-center gap-2">
             <span>📋</span> Your Lab Reports List
           </h3>
-          <p class="text-xs text-slate-400">Each report below will produce an individual PDF cover page.</p>
+          <p id="reportsListDesc" class="text-xs text-slate-400">Each report below will produce an individual PDF cover page.</p>
         </div>
         <button type="button" id="btnAddReport" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition shadow-md active:scale-95">
           <span>+</span>
@@ -596,7 +616,7 @@
         
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-700">
           <div>
-            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+            <label id="previewReportSelectorLabel" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
               Select Lab Report to Preview
             </label>
             <select id="previewReportSelector" class="form-input rounded-xl px-3 py-2 text-sm font-medium w-full sm:w-80">
@@ -712,7 +732,7 @@
       </div>
 
       <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
-        <p>A free, open-source tool designed for Textile Engineering and engineering students at <strong>Mawlana Bhashani Science and Technology University (MBSTU)</strong> to create standardized, high-quality vector PDF cover pages quickly.</p>
+        <p>A free, open-source tool designed for engineering and other students at <strong>Mawlana Bhashani Science and Technology University (MBSTU)</strong> to create standardized, high-quality vector PDF cover pages quickly.</p>
 
         <div class="bg-slate-800/80 rounded-xl p-3.5 space-y-1.5 text-xs border border-slate-700">
           <p><strong class="text-white">Developer:</strong> Nomun Sheikh</p>
@@ -753,6 +773,7 @@
     // Fictional, safe example data (no real personal identifiers)
     const EXAMPLE_STATE = {
       version: CURRENT_VERSION,
+      docType: 'lab_report',
       courseTitle: 'Textile Testing and Quality Control-III (lab)',
       courseCode: 'TXE 4112',
       department: 'Textile Engineering',
@@ -778,6 +799,7 @@
     // Default blank/starting state
     const DEFAULT_STATE = {
       version: CURRENT_VERSION,
+      docType: 'lab_report',
       courseTitle: '',
       courseCode: '',
       department: 'Textile Engineering',
@@ -1171,6 +1193,76 @@
       'studentName', 'studentId', 'instructorName', 'instructorDesignation'
     ];
 
+    function setDocType(type) {
+      appState.docType = (type === 'assignment') ? 'assignment' : 'lab_report';
+      updateDocTypeUI();
+      triggerAutoSave();
+      if (currentStep === 4) {
+        populateReportSelector();
+        renderPreview();
+      }
+      showToast('Switched to ' + (type === 'assignment' ? 'Assignment' : 'Lab Report') + ' mode ✓', '📝');
+    }
+
+    function updateDocTypeUI() {
+      const isAssignment = appState.docType === 'assignment';
+      const labBtn = document.getElementById('docTypeLab');
+      const asgBtn = document.getElementById('docTypeAssignment');
+      const helpEl = document.getElementById('docTypeHelp');
+      const tipText = document.getElementById('step3TipText');
+      const quickHeader = document.getElementById('quickCreateTitle');
+      const quickBadge = document.getElementById('quickCreateBadge');
+      const quickDesc = document.getElementById('quickCreateDesc');
+      const quickStartLabel = document.getElementById('quickStartLabel');
+      const quickEndLabel = document.getElementById('quickEndLabel');
+      const quickTopicLabel = document.getElementById('quickTopicLabel');
+      const quickTopicInput = document.getElementById('quickSharedTopic');
+      const quickBtn = document.getElementById('btnQuickGenerate');
+      const listTitle = document.getElementById('reportsListTitle');
+      const listDesc = document.getElementById('reportsListDesc');
+      const addBtn = document.getElementById('btnAddReport');
+      const step3TabLabel = document.getElementById('step3TabLabel');
+      const previewSelLabel = document.getElementById('previewReportSelectorLabel');
+
+      if (labBtn && asgBtn) {
+        if (isAssignment) {
+          asgBtn.className = 'doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-md active:scale-95 bg-blue-600/20 border-blue-500 text-white';
+          labBtn.className = 'doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-sm active:scale-95 bg-slate-900 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600';
+        } else {
+          labBtn.className = 'doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-md active:scale-95 bg-blue-600/20 border-blue-500 text-white';
+          asgBtn.className = 'doc-type-btn flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all shadow-sm active:scale-95 bg-slate-900 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600';
+        }
+      }
+
+      if (helpEl) {
+        helpEl.innerHTML = isAssignment
+          ? 'Generating cover pages for <strong>Assignments</strong> (prints &quot;ASSIGNMENT&quot;, &quot;Assignment no:&quot;, &quot;Assignment title:&quot;).'
+          : 'Generating cover pages for <strong>Lab Reports</strong> (prints &quot;LAB REPORT&quot;, &quot;Lab report no:&quot;, &quot;Lab report on:&quot;).';
+      }
+
+      if (tipText) {
+        tipText.innerHTML = isAssignment
+          ? '<p><strong class="font-semibold text-white">Student Tip:</strong> Assignment numbers are usually written as 01, 02... or 1, 2, 3.</p><p class="text-indigo-300/80"><strong>Date helper:</strong> Leave submission date blank to print clean placeholders <code class="bg-indigo-900/50 px-1 py-0.5 rounded text-white">..../..../....</code> so you can write it by hand.</p>'
+          : '<p><strong class="font-semibold text-white">Student Tip:</strong> Lab numbers are usually written as 01, 02, 03... or 1, 2, 3.</p><p class="text-indigo-300/80"><strong>Date helper:</strong> If you leave performance or submission dates blank, the cover page will print clean placeholders <code class="bg-indigo-900/50 px-1 py-0.5 rounded text-white">..../..../....</code> so you can write them by hand later.</p>';
+      }
+
+      if (quickHeader) quickHeader.innerHTML = isAssignment ? '<span>⚡</span> Quick Create Multiple Assignments' : '<span>⚡</span> Quick Create Multiple Reports';
+      if (quickBadge) quickBadge.textContent = isAssignment ? 'Auto-Generates Sequential Assignments' : 'Auto-Generates Sequential Reports';
+      if (quickDesc) quickDesc.textContent = isAssignment ? 'Need to generate cover pages for Assignment 1 to 5? Set the numbers below and click generate.' : 'Need to generate cover pages for Lab 1 to 5? Set the numbers below and click generate.';
+      if (quickStartLabel) quickStartLabel.textContent = isAssignment ? 'From Assignment No.' : 'From Lab No.';
+      if (quickEndLabel) quickEndLabel.textContent = isAssignment ? 'To Assignment No.' : 'To Lab No.';
+      if (quickTopicLabel) quickTopicLabel.textContent = isAssignment ? 'Shared Assignment Title Prefix (Optional)' : 'Shared Topic Prefix (Optional)';
+      if (quickTopicInput) quickTopicInput.placeholder = isAssignment ? 'e.g. Garment Pattern Study' : 'e.g. Lab Experiment';
+      if (quickBtn) quickBtn.textContent = isAssignment ? '+ Generate Assignments' : '+ Generate';
+      if (listTitle) listTitle.innerHTML = isAssignment ? '<span>📋</span> Your Assignments List' : '<span>📋</span> Your Lab Reports List';
+      if (listDesc) listDesc.textContent = isAssignment ? 'Each assignment below will produce an individual PDF cover page.' : 'Each report below will produce an individual PDF cover page.';
+      if (addBtn) addBtn.innerHTML = isAssignment ? '<span>+</span><span>Add Assignment</span>' : '<span>+</span><span>Add Lab Report</span>';
+      if (step3TabLabel) step3TabLabel.textContent = isAssignment ? 'Assignments' : 'Reports';
+      if (previewSelLabel) previewSelLabel.textContent = isAssignment ? 'Select Assignment to Preview' : 'Select Lab Report to Preview';
+
+      renderReportsList();
+    }
+
     function populateFormFromState() {
       textFields.forEach(id => {
         const el = document.getElementById(id);
@@ -1184,7 +1276,7 @@
         borderCb.checked = appState.showBorder !== false;
       }
 
-      renderReportsList();
+      updateDocTypeUI();
     }
 
     function attachFormListeners() {
@@ -1235,6 +1327,13 @@
 
       if (emptyState) emptyState.classList.add('hidden');
 
+      const isAssignment = appState.docType === 'assignment';
+      const itemTitle = isAssignment ? 'Assignment Entry' : 'Lab Report Entry';
+      const noLabel = isAssignment ? 'Assignment No.' : 'Lab No.';
+      const topicLabel = isAssignment ? 'Assignment Title / Topic' : 'Lab Topic / Title';
+      const topicPlaceholder = isAssignment ? 'e.g. Garment Pattern Analysis' : 'e.g. Determination of fabric GSM';
+      const noPlaceholder = 'e.g. 01';
+
       container.innerHTML = appState.reports.map((rep, idx) => `
         <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 space-y-3 transition hover:border-slate-600" data-report-id="${escapeHtml(rep.id)}">
           <div class="flex items-center justify-between">
@@ -1243,31 +1342,31 @@
                 ${idx + 1}
               </span>
               <span class="text-xs font-semibold uppercase text-slate-400 tracking-wider">
-                Lab Report Entry
+                ${itemTitle}
               </span>
             </div>
             ${appState.reports.length > 1 ? `
-              <button type="button" class="btn-delete-report text-xs font-semibold text-red-400 hover:text-red-300 p-1.5 rounded-lg hover:bg-red-950/30 transition" data-id="${escapeHtml(rep.id)}" title="Delete this report">
+              <button type="button" class="btn-delete-report text-xs font-semibold text-red-400 hover:text-red-300 p-1.5 rounded-lg hover:bg-red-950/30 transition" data-id="${escapeHtml(rep.id)}" title="Delete this entry">
                 🗑️ Delete
               </button>
             ` : ''}
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
-            <!-- Lab No -->
+            <!-- No -->
             <div class="sm:col-span-3">
               <label class="block text-xs font-medium text-slate-300 mb-1">
-                Lab No. <span class="text-red-400">*</span>
+                ${noLabel} <span class="text-red-400">*</span>
               </label>
-              <input type="text" value="${escapeHtml(rep.labNo)}" data-id="${escapeHtml(rep.id)}" data-field="labNo" class="rep-input form-input w-full rounded-xl px-3 py-2 text-sm font-semibold text-center" placeholder="e.g. 01">
+              <input type="text" value="${escapeHtml(rep.labNo)}" data-id="${escapeHtml(rep.id)}" data-field="labNo" class="rep-input form-input w-full rounded-xl px-3 py-2 text-sm font-semibold text-center" placeholder="${noPlaceholder}">
             </div>
 
-            <!-- Lab Topic -->
+            <!-- Topic / Title -->
             <div class="sm:col-span-9">
               <label class="block text-xs font-medium text-slate-300 mb-1">
-                Lab Topic / Title <span class="text-red-400">*</span>
+                ${topicLabel} <span class="text-red-400">*</span>
               </label>
-              <input type="text" value="${escapeHtml(rep.topic)}" data-id="${escapeHtml(rep.id)}" data-field="topic" class="rep-input form-input w-full rounded-xl px-3 py-2 text-sm" placeholder="e.g. Determination of fabric GSM">
+              <input type="text" value="${escapeHtml(rep.topic)}" data-id="${escapeHtml(rep.id)}" data-field="topic" class="rep-input form-input w-full rounded-xl px-3 py-2 text-sm" placeholder="${topicPlaceholder}">
             </div>
 
             <!-- Date of Performance -->
@@ -1291,6 +1390,7 @@
     }
 
     function addLabReport(labNo = '', topic = '', perfDate = '', subDate = '') {
+      const isAssignment = appState.docType === 'assignment';
       // Auto-compute next number if blank
       if (!labNo) {
         let maxNum = 0;
@@ -1313,18 +1413,19 @@
 
       renderReportsList();
       triggerAutoSave();
-      showToast(`Added Lab Report #${labNo}`, '✓');
+      showToast(`Added ${isAssignment ? 'Assignment' : 'Lab Report'} #${labNo}`, '✓');
     }
 
     function deleteLabReport(id) {
+      const isAssignment = appState.docType === 'assignment';
       if (appState.reports.length <= 1) {
-        showToast('You must keep at least one lab report', '⚠️', true);
+        showToast(`You must keep at least one ${isAssignment ? 'assignment' : 'lab report'}`, '⚠️', true);
         return;
       }
       appState.reports = appState.reports.filter(r => r.id !== id);
       renderReportsList();
       triggerAutoSave();
-      showToast('Lab report deleted', 'ℹ️');
+      showToast(`${isAssignment ? 'Assignment' : 'Lab report'} deleted`, 'ℹ️');
     }
 
     function handleQuickGenerate() {
@@ -1402,9 +1503,11 @@
 
       if (badge) badge.textContent = appState.reports.length;
 
+      const isAssignment = appState.docType === 'assignment';
+      const itemPrefix = isAssignment ? 'Assignment #' : 'Lab #';
       sel.innerHTML = appState.reports.map((r, idx) => {
         const topicPreview = r.topic ? ` - ${r.topic.substring(0, 30)}${r.topic.length > 30 ? '...' : ''}` : ' (No topic)';
-        return `<option value="${escapeHtml(r.id)}">Lab #${escapeHtml(r.labNo || String(idx+1))}${escapeHtml(topicPreview)}</option>`;
+        return `<option value="${escapeHtml(r.id)}">${itemPrefix}${escapeHtml(r.labNo || String(idx+1))}${escapeHtml(topicPreview)}</option>`;
       }).join('');
 
       if (!selectedReportId || !appState.reports.some(r => r.id === selectedReportId)) {
@@ -1475,11 +1578,11 @@
               </p>
             </div>
 
-            <!-- 4. LAB REPORT Title with Double Line -->
+            <!-- 4. Title with Double Line (LAB REPORT or ASSIGNMENT) -->
             <div class="text-center my-4">
               <div class="inline-block px-8 py-1.5" style="border-top: 3px double #000; border-bottom: 3px double #000;">
                 <h2 class="font-bold tracking-widest text-black" style="font-size: ${baseFontSize + 9}pt; letter-spacing: 2px;">
-                  LAB REPORT
+                  ${st.docType === 'assignment' ? 'ASSIGNMENT' : 'LAB REPORT'}
                 </h2>
               </div>
             </div>
@@ -1487,19 +1590,19 @@
             <!-- 5, 6, 7, 8. Report Details (Centered) -->
             <div class="text-center space-y-2 pt-1" style="font-size: ${baseFontSize}pt;">
               
-              <!-- Lab report no -->
+              <!-- Report / Assignment no -->
               <div>
-                <span class="font-bold">Lab report no:</span>
+                <span class="font-bold">${st.docType === 'assignment' ? 'Assignment no:' : 'Lab report no:'}</span>
                 <span class="font-bold ml-2 underline underline-offset-4" style="font-size: ${baseFontSize + 4}pt;">
                   ${escapeHtml(rep.labNo || '01')}
                 </span>
               </div>
 
-              <!-- Lab report on -->
+              <!-- Report on / Assignment title -->
               <div class="max-w-xl mx-auto px-4">
-                <span class="font-bold">Lab report on:</span>
+                <span class="font-bold">${st.docType === 'assignment' ? 'Assignment title:' : 'Lab report on:'}</span>
                 <p class="italic text-black font-normal mt-0.5 leading-snug" style="font-size: ${baseFontSize + 1}pt;">
-                  ${escapeHtml(rep.topic || '(Topic not specified)')}
+                  ${escapeHtml(rep.topic || (st.docType === 'assignment' ? '(Assignment title not specified)' : '(Topic not specified)'))}
                 </p>
               </div>
 
@@ -1657,14 +1760,20 @@
       // 3. University Address
       doc.setFont('times', 'normal');
       doc.setFontSize(baseFontSize - 1.5);
-      doc.text(st.uniAddress || 'Santosh, Tangail-1902', 105, y, { align: 'center' });
-      y += 8;
+      const addrLines = doc.splitTextToSize(st.uniAddress || 'Santosh, Tangail-1902', 170);
+      addrLines.forEach(line => {
+        doc.text(line, 105, y, { align: 'center' });
+        y += 4.5;
+      });
+      
+      // Clear spacing between address and the top double-line bar (prevents overlap)
+      y += 6;
 
-      // 4. "LAB REPORT" with double-line decoration
+      // 4. "LAB REPORT" or "ASSIGNMENT" with double-line decoration
       doc.setFont('times', 'bold');
       doc.setFontSize(baseFontSize + 9);
-      const titleText = 'LAB REPORT';
-      doc.text(titleText, 105, y, { align: 'center' });
+      const isAssignment = st.docType === 'assignment';
+      const titleText = isAssignment ? 'ASSIGNMENT' : 'LAB REPORT';
 
       const textWidth = doc.getTextWidth(titleText);
       const pad = 12;
@@ -1673,19 +1782,24 @@
 
       doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.4);
-      // Double line above
-      doc.line(x1, y - 9.5, x2, y - 9.5);
-      doc.line(x1, y - 8.3, x2, y - 8.3);
-      // Double line below
+      // Double line above title (positioned clearly below address!)
+      doc.line(x1, y, x2, y);
+      doc.line(x1, y + 1.2, x2, y + 1.2);
+
+      // Title text baseline positioned comfortably between lines
+      y += 8.5;
+      doc.text(titleText, 105, y, { align: 'center' });
+
+      // Double line below title
       doc.line(x1, y + 2.5, x2, y + 2.5);
       doc.line(x1, y + 3.7, x2, y + 3.7);
 
-      y += 13;
+      y += 12;
 
-      // 5. Lab report no
+      // 5. Lab report no / Assignment no
       doc.setFont('times', 'bold');
       doc.setFontSize(baseFontSize);
-      doc.text('Lab report no:', 105, y, { align: 'center' });
+      doc.text(isAssignment ? 'Assignment no:' : 'Lab report no:', 105, y, { align: 'center' });
       y += 6;
 
       doc.setFontSize(baseFontSize + 5);
@@ -1695,15 +1809,16 @@
       doc.line(105 - (noWidth/2) - 2, y + 1.5, 105 + (noWidth/2) + 2, y + 1.5);
       y += 9;
 
-      // 6. Lab report on (topic in italics, max 3 lines)
+      // 6. Lab report on / Assignment title (topic in italics, max 3 lines)
       doc.setFont('times', 'bold');
       doc.setFontSize(baseFontSize);
-      doc.text('Lab report on:', 105, y, { align: 'center' });
+      doc.text(isAssignment ? 'Assignment title:' : 'Lab report on:', 105, y, { align: 'center' });
       y += 5.5;
 
       doc.setFont('times', 'italic');
       doc.setFontSize(baseFontSize + 0.5);
-      const topicLines = doc.splitTextToSize(rep.topic || '(Topic not specified)', 150).slice(0, 3);
+      const topicFallback = isAssignment ? '(Assignment title not specified)' : '(Topic not specified)';
+      const topicLines = doc.splitTextToSize(rep.topic || topicFallback, 150).slice(0, 3);
       topicLines.forEach(line => {
         doc.text(line, 105, y, { align: 'center' });
         y += 5;
@@ -1809,11 +1924,13 @@
       return doc;
     }
 
-    // Filename helper: Lab_08_TXE4112_CoverPage.pdf
+    // Filename helper: Lab_08_TXE4112_CoverPage.pdf or Assignment_08_TXE4112_CoverPage.pdf
     function makeFilename(rep) {
+      const isAssignment = appState.docType === 'assignment';
+      const prefix = isAssignment ? 'Assignment' : 'Lab';
       const cleanLab = String(rep.labNo || '01').padStart(2, '0').replace(/[^a-zA-Z0-9_-]/g, '');
-      const cleanCourse = (appState.courseCode || 'Report').replace(/[^a-zA-Z0-9_-]/g, '');
-      return `Lab_${cleanLab}_${cleanCourse}_CoverPage.pdf`;
+      const cleanCourse = (appState.courseCode || (isAssignment ? 'Assignment' : 'Report')).replace(/[^a-zA-Z0-9_-]/g, '');
+      return `${prefix}_${cleanLab}_${cleanCourse}_CoverPage.pdf`;
     }
 
     // ──────────────────────────────────────────
@@ -1885,7 +2002,7 @@
         const zipContent = await zip.generateAsync({ type: 'blob' });
         
         const cleanCourse = (appState.courseCode || 'MBSTU').replace(/[^a-zA-Z0-9_-]/g, '');
-        const zipName = `${cleanCourse}_All_Lab_Cover_Pages.zip`;
+        const zipName = `${cleanCourse}_All_${appState.docType === 'assignment' ? 'Assignment' : 'Lab'}_Cover_Pages.zip`;
 
         const link = document.createElement('a');
         link.href = URL.createObjectURL(zipContent);
@@ -1919,6 +2036,12 @@
     }
 
     function initEvents() {
+      // Document Type Switcher (Lab Report vs Assignment)
+      const docTypeLab = document.getElementById('docTypeLab');
+      const docTypeAsg = document.getElementById('docTypeAssignment');
+      if (docTypeLab) docTypeLab.addEventListener('click', () => setDocType('lab_report'));
+      if (docTypeAsg) docTypeAsg.addEventListener('click', () => setDocType('assignment'));
+
       // Step buttons (top progress bar)
       document.querySelectorAll('.step-btn').forEach(btn => {
         btn.addEventListener('click', () => {
