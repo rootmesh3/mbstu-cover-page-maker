@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://mbstucover.netlify.app/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://mbstucover.netlify.app/media/mbstu-logo.jpg</image:loc>
+      <image:title>MBSTU Official University Logo</image:title>
+      <image:caption>Official monogram of Mawlana Bhashani Science and Technology University (MBSTU) for cover pages</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://mbstucover.netlify.app/media/mbstu-lab-report-cover-sample.jpg</image:loc>
+      <image:title>MBSTU Lab Report Cover Page Sample</image:title>
+      <image:caption>Sample standard A4 PDF cover page for MBSTU lab reports with university logo and submission box</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://mbstucover.netlify.app/media/mbstu-assignment-cover-sample.jpg</image:loc>
+      <image:title>MBSTU Assignment Cover Page Sample</image:title>
+      <image:caption>Sample standard A4 PDF cover page for MBSTU course assignments</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://mbstucover.netlify.app/media/mbstu-cover-step1-course-info.jpg</image:loc>
+      <image:title>MBSTU Cover Page Generator Step 1: Course Info</image:title>
+      <image:caption>Course details input and university monogram preview</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://mbstucover.netlify.app/media/mbstu-cover-step2-student-details.jpg</image:loc>
+      <image:title>MBSTU Cover Page Generator Step 2: Student and Faculty Details</image:title>
+      <image:caption>Student information and instructor designation form</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://mbstucover.netlify.app/media/mbstu-cover-step3-lab-reports.jpg</image:loc>
+      <image:title>MBSTU Cover Page Generator Step 3: Reports and Assignments Management</image:title>
+      <image:caption>Lab report and assignment entries with batch auto-generator</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://mbstucover.netlify.app/media/mbstu-cover-step4-preview-download.jpg</image:loc>
+      <image:title>MBSTU Cover Page Generator Step 4: Live Preview and Download</image:title>
+      <image:caption>Exact A4 sheet preview with vector PDF, ZIP, and sequential download options</image:caption>
+    </image:image>
+  </url>
+</urlset>

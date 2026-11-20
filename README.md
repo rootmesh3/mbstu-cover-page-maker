@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="media/logo.jpg" alt="Mawlana Bhashani Science and Technology University Monogram" width="130" />
+  <img src="media/mbstu-logo.jpg" alt="Mawlana Bhashani Science and Technology University (MBSTU) Logo" width="130" />
 </p>
 
 <h1 align="center">MBSTU Cover Page Generator</h1>
 
 <p align="center">
-  <strong>Standardized, high-quality vector PDF cover page generator for students at Mawlana Bhashani Science and Technology University (MBSTU).</strong>
+  <strong>Standardized, high-quality vector PDF cover page generator for Mawlana Bhashani Science and Technology University (MBSTU) lab reports and assignments.</strong>
 </p>
 
 <p align="center">
@@ -29,31 +29,22 @@
 
 ## 📌 Overview
 
-The **MBSTU Cover Page Generator** is an open-source, client-side web utility created to help engineering and academic students at **Mawlana Bhashani Science and Technology University** generate clean, uniform, and print-ready A4 cover pages in under two minutes.
+The **MBSTU Cover Page Generator** is a fast, free, open-source online utility designed for students at **Mawlana Bhashani Science and Technology University (MBSTU)** to create official, standardized A4 vector PDF cover pages for **MBSTU lab reports** and **course assignments**. Created especially for Textile Engineering and engineering departments, it features the official university monogram, automatic sequential batch generation, strict `DD/MM/YYYY` date formatting, and real-time on-screen preview.
 
-Whether you need cover pages for regular **Lab Reports** or course **Assignments**, this tool eliminates misaligned templates, distorted monograms, and repetitive copy-pasting across sequential submissions.
+The XML sitemap is accessible at [`sitemap.xml`](https://mbstucover.netlify.app/sitemap.xml) and all optimized media assets are located in the [`media/`](media/) directory.
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
-- **Dual Document Support**: Toggle seamlessly between **Lab Report** and **Assignment** modes. Headers, report numbering, and titles adapt dynamically.
-- **Embedded Official Monogram**: The MBSTU university logo is embedded by default as an optimized base64 vector asset. Works offline with zero image loading or CORS errors. You can also upload a custom monogram or remove it as needed.
-- **True Vector PDF Export**: Generates ultra-crisp vector PDFs directly through `jsPDF`. Text and shapes remain sharp at any zoom level, avoiding canvas-based blurriness.
-- **Interactive 4-Step Flow**:
-  1. **Course Info**: Course Title, Course Code, Department, Session, Year, and Semester.
-  2. **People Details**: Student Name, Student ID, Instructor Name, and Designation.
-  3. **Reports & Assignments**: Individual report topics, dates, and quick batch generation.
-  4. **Preview & Download**: Exact 1:1 on-screen A4 sheet preview and one-click downloads.
-- **Quick Batch Generator**: Create sequential reports (e.g. Lab 01 through Lab 05) with automated numbering and shared topic prefixes in seconds.
-- **Flexible Downloads**:
-  - Download individual PDFs.
-  - Download all entries bundled in a single `.zip` file (via `JSZip`).
-  - Automated sequential download option with progress tracking.
-- **Strict `DD/MM/YYYY` Date System**: Uses standardized date formatting paired with a calendar picker 📅. Leaving dates blank automatically renders handwriting placeholders (`..../..../....`).
-- **Browser Auto-Save**: Automatically preserves your progress in `localStorage` so you never lose form details when closing or refreshing the tab.
-- **Mobile-First & Dark UI**: Beautiful, accessible dark theme optimized for all screen sizes (responsive down to 375px mobile viewports).
-- **100% Private & Serverless**: Runs entirely in your browser. No databases, no telemetry, and no personal data ever leaves your device.
+- **Dual Mode (Lab Report vs. Assignment)**: Switch instantly between Lab Report (`LAB REPORT`, `Lab report no:`, `Lab report on:`) and Assignment (`ASSIGNMENT`, `Assignment no:`, `Assignment title:`) layouts.
+- **Embedded Official Monogram**: The official MBSTU logo is integrated directly as an offline base64 asset with options to upload custom monograms or reset with one click.
+- **Vector-Accurate PDF Output**: Direct mathematical vector geometry using `jsPDF` ensures pin-sharp text and borders at any printer DPI or zoom level.
+- **Sequential Batch Generator**: Auto-generate cover pages for multiple labs or assignments (e.g., Lab 01 to Lab 05) with sequential numbering and shared topics.
+- **Flexible Downloads**: Export single vector PDFs, download bundled `.zip` packages via `JSZip`, or trigger sequential multi-file downloads.
+- **Strict `DD/MM/YYYY` Dates**: Includes a calendar picker 📅 and automatically outputs neat handwriting placeholders (`..../..../....`) when left blank.
+- **Automatic Local Caching**: Saves entered course, student, and teacher details in browser `localStorage`.
+- **100% Private & Client-Side**: No backend servers, no analytics, no cookies, and no tracking. Everything runs directly inside your web browser.
 
 ---
 
@@ -63,16 +54,16 @@ Whether you need cover pages for regular **Lab Reports** or course **Assignments
 Configure course metadata and preview or customize the university monogram.
 
 <p align="center">
-  <img src="media/step1.jpg" alt="Step 1 - Course Information" width="800" />
+  <img src="media/mbstu-cover-step1-course-info.jpg" alt="MBSTU cover page generator step 1 course information form" width="800" />
 </p>
 
 ---
 
 ### Step 2: Student & Faculty Details
-Enter your student name, ID number, session, and your teacher's name and designation.
+Enter student name, ID number, session, and teacher's name and designation.
 
 <p align="center">
-  <img src="media/step2.jpg" alt="Step 2 - Student and Teacher Details" width="800" />
+  <img src="media/mbstu-cover-step2-student-details.jpg" alt="MBSTU cover page generator step 2 student and teacher details" width="800" />
 </p>
 
 ---
@@ -81,7 +72,7 @@ Enter your student name, ID number, session, and your teacher's name and designa
 Switch between **Lab Report** and **Assignment** modes, auto-generate sequential entries, and set dates.
 
 <p align="center">
-  <img src="media/step3.jpg" alt="Step 3 - Reports and Assignments Management" width="800" />
+  <img src="media/mbstu-cover-step3-lab-reports.jpg" alt="MBSTU lab report entry and quick batch generator" width="800" />
 </p>
 
 ---
@@ -90,58 +81,43 @@ Switch between **Lab Report** and **Assignment** modes, auto-generate sequential
 Inspect the exact vector layout on an authentic A4 sheet before exporting.
 
 <p align="center">
-  <img src="media/step4.jpg" alt="Step 4 - Live Preview and Download" width="800" />
+  <img src="media/mbstu-cover-step4-preview-download.jpg" alt="MBSTU cover page live A4 preview and PDF download" width="800" />
 </p>
 
 ---
 
-## 📄 Downloaded PDF Showcase
+## 📄 Downloaded PDF Samples
 
-Here is how exported PDFs look when downloaded and printed:
+Standardized output comparison for both modes:
 
-| Lab Report Cover Page | Assignment Cover Page |
+| MBSTU Lab Report Sample | MBSTU Assignment Sample |
 | :---: | :---: |
-| <img src="media/Dowloaded_lab_report.jpg" alt="Exported Lab Report PDF" width="380" /> | <img src="media/Dowloaded_assignment.jpg" alt="Exported Assignment PDF" width="380" /> |
+| <img src="media/mbstu-lab-report-cover-sample.jpg" alt="MBSTU lab report cover page sample PDF with university logo, course details and submission box" width="380" /> | <img src="media/mbstu-assignment-cover-sample.jpg" alt="MBSTU assignment cover page sample PDF generated by the cover page generator" width="380" /> |
 
 ---
 
 ## 🚀 Getting Started
 
-### Option 1: Use the Live Web Application
-Visit **[mbstucover.netlify.app](https://mbstucover.netlify.app/)** directly from any desktop, tablet, or phone browser.
+### Option 1: Use Live Online
+Open **[mbstucover.netlify.app](https://mbstucover.netlify.app/)** in any modern web browser on desktop or mobile.
 
-### Option 2: Run Offline / Locally
-Because the application is completely self-contained in a single file (`index.html`), no setup or installation is required:
-
-1. Clone or download this repository:
+### Option 2: Run Locally (Offline)
+No build process or packages required:
+1. Clone this repository:
    ```bash
    git clone https://github.com/your-username/mbstu-cover-generator.git
    cd mbstu-cover-generator
    ```
-2. Double-click `index.html` to open it in your browser (Chrome, Firefox, Edge, Safari).
-3. No `npm install`, node server, or build steps required!
+2. Double-click `index.html` to open it in Chrome, Edge, Firefox, or Safari.
 
 ---
 
-## 🌐 Deploying to Netlify
+## 🌐 Netlify Deployment
 
-This repository is ready for instant zero-configuration hosting on **Netlify**:
-
-1. Log into [Netlify](https://app.netlify.com/).
-2. Drag and drop the project folder directly into **Netlify Drop**, or link your GitHub repository.
-3. Configure settings:
-   - **Build command**: *(Leave blank)*
-   - **Publish directory**: `.` (Root directory)
-4. Your site will deploy in seconds.
-
----
-
-## 🛠️ Built With
-
-- **HTML5 & Vanilla JavaScript**: Fast, dependency-free application logic.
-- **[Tailwind CSS](https://tailwindcss.com/)**: Modern responsive layout and dark UI design.
-- **[jsPDF](https://github.com/parallax/jsPDF)**: Client-side vector PDF composition and rendering.
-- **[JSZip](https://stuk.github.io/jszip/)**: Client-side archiving for bundled ZIP downloads.
+This repository is pre-configured with `_redirects` and robots/sitemap support for **Netlify**:
+1. Drag and drop the folder into [Netlify Drop](https://app.netlify.com/drop) or link your GitHub repo.
+2. Build command: *(none)*
+3. Publish directory: `.`
 
 ---
 
@@ -154,10 +130,8 @@ Designed and developed with ❤️ for students by:
 - **Email:** [nomun.s@outlook.com](mailto:nomun.s@outlook.com)
 - **Institution:** Mawlana Bhashani Science and Technology University (MBSTU)
 
-Feel free to connect on Instagram or open an issue if you have suggestions or departmental template requests!
-
 ---
 
 ## 📜 License
 
-This project is licensed under the [MIT License](LICENSE) — free to use, modify, and distribute for personal and educational purposes.
+This project is licensed under the [MIT License](LICENSE) — free to use and adapt for academic and personal purposes.
