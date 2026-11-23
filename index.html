@@ -2057,6 +2057,12 @@
       return str;
     }
 
+    function formatDeptName(dept) {
+      const d = (dept || 'Textile Engineering').trim();
+      const withPrefix = /^department of/i.test(d) ? d : `Department of ${d}`;
+      return withPrefix.replace(/,+$/, '') + ',';
+    }
+
     function getSelectedReport() {
       if (!appState.reports || appState.reports.length === 0) return null;
       let rep = appState.reports.find(r => r.id === selectedReportId);
@@ -2205,7 +2211,7 @@
                 <p><span class="font-semibold">ID No:</span> ${escapeHtml(st.studentId || '...')}</p>
                 <p><span class="font-semibold">Session:</span> ${escapeHtml(st.session || '...')}</p>
                 <p><span class="font-semibold">Year:</span> ${escapeHtml(st.year || '4th')}, <span class="font-semibold">Semester:</span> ${escapeHtml(st.semester || '1st')}</p>
-                <p class="pt-1">Department of ${escapeHtml(st.department || 'Textile Engineering')},</p>
+                <p class="pt-1">${escapeHtml(formatDeptName(st.department))}</p>
                 <p>${escapeHtml(st.uniName || 'Mawlana Bhashani Science and Technology University')}</p>
               </div>
 
@@ -2218,7 +2224,7 @@
                   ${escapeHtml(st.instructorName || '...')}
                 </p>
                 <p>${escapeHtml(st.instructorDesignation || 'Lecturer')},</p>
-                <p>Department of ${escapeHtml(st.department || 'Textile Engineering')},</p>
+                <p>${escapeHtml(formatDeptName(st.department))}</p>
                 <p>${escapeHtml(st.uniName || 'Mawlana Bhashani Science and Technology University')}</p>
               </div>
 
@@ -2412,6 +2418,8 @@
       const boxX2 = 108;
       const cellPad = 4;
 
+      const deptText = formatDeptName(st.department);
+
       // Calculate lines for Left Box
       const leftLines = [
         { text: 'Submitted By…', bold: true, size: baseFontSize + 1 },
@@ -2419,7 +2427,7 @@
         { text: `ID No: ${st.studentId || '...'}`, bold: false, size: baseFontSize - 0.5 },
         { text: `Session: ${st.session || '...'}`, bold: false, size: baseFontSize - 0.5 },
         { text: `Year: ${st.year || '4th'}, Semester: ${st.semester || '1st'}`, bold: false, size: baseFontSize - 0.5 },
-        { text: `Department of ${st.department || 'Textile Engineering'},`, bold: false, size: baseFontSize - 0.5 },
+        { text: deptText, bold: false, size: baseFontSize - 0.5 },
         { text: st.uniName || 'Mawlana Bhashani Science and Technology University', bold: false, size: baseFontSize - 0.5 }
       ];
 
@@ -2428,20 +2436,35 @@
         { text: 'Submitted To…', bold: true, size: baseFontSize + 1 },
         { text: st.instructorName || '...', bold: true, size: baseFontSize },
         { text: `${st.instructorDesignation || 'Lecturer'},`, bold: false, size: baseFontSize - 0.5 },
-        { text: `Department of ${st.department || 'Textile Engineering'},`, bold: false, size: baseFontSize - 0.5 },
+        { text: deptText, bold: false, size: baseFontSize - 0.5 },
         { text: st.uniName || 'Mawlana Bhashani Science and Technology University', bold: false, size: baseFontSize - 0.5 }
       ];
 
-      // Dynamic height calculation so text never clips
-      const calcBoxH = (lines) => {
-        let totalH = cellPad * 2;
-        lines.forEach(l => {
-          totalH += (l.size * 0.45) + 2.5;
+      // Prepare wrapped lines and compute the exact rendered height for each box
+      const prepareBox = (lines) => {
+        let curOffset = cellPad + 4;
+        const items = lines.map((l, i) => {
+          doc.setFont('times', l.bold ? 'bold' : 'normal');
+          doc.setFontSize(l.size);
+          const wrapped = doc.splitTextToSize(l.text, boxW - (cellPad * 2));
+          const lineStep = (l.size * 0.4) + 2;
+          const yOffsets = [];
+          wrapped.forEach(() => {
+            yOffsets.push(curOffset);
+            curOffset += lineStep;
+          });
+          if (i === 0) curOffset += 1.5; // slight spacer after header
+          return { ...l, wrapped, yOffsets };
         });
-        return totalH;
+        // curOffset is now after the last line's baseline + lineStep
+        // Adding cellPad ensures comfortable breathing room at the bottom of the box
+        const requiredH = curOffset + cellPad;
+        return { items, requiredH };
       };
 
-      const boxH = Math.max(calcBoxH(leftLines), calcBoxH(rightLines), 52);
+      const leftBox = prepareBox(leftLines);
+      const rightBox = prepareBox(rightLines);
+      const boxH = Math.max(leftBox.requiredH, rightBox.requiredH, 52);
 
       // Draw box frames
       doc.setDrawColor(0, 0, 0);
@@ -2450,29 +2473,21 @@
       doc.rect(boxX2, boxY, boxW, boxH);
 
       // Render Left Box Text
-      let curY1 = boxY + cellPad + 4;
-      leftLines.forEach((l, i) => {
+      leftBox.items.forEach(l => {
         doc.setFont('times', l.bold ? 'bold' : 'normal');
         doc.setFontSize(l.size);
-        const wrapped = doc.splitTextToSize(l.text, boxW - (cellPad * 2));
-        wrapped.forEach(wline => {
-          doc.text(wline, boxX1 + cellPad, curY1);
-          curY1 += (l.size * 0.4) + 2;
+        l.wrapped.forEach((wline, idx) => {
+          doc.text(wline, boxX1 + cellPad, boxY + l.yOffsets[idx]);
         });
-        if (i === 0) curY1 += 1.5; // slight spacer after header
       });
 
       // Render Right Box Text
-      let curY2 = boxY + cellPad + 4;
-      rightLines.forEach((l, i) => {
+      rightBox.items.forEach(l => {
         doc.setFont('times', l.bold ? 'bold' : 'normal');
         doc.setFontSize(l.size);
-        const wrapped = doc.splitTextToSize(l.text, boxW - (cellPad * 2));
-        wrapped.forEach(wline => {
-          doc.text(wline, boxX2 + cellPad, curY2);
-          curY2 += (l.size * 0.4) + 2;
+        l.wrapped.forEach((wline, idx) => {
+          doc.text(wline, boxX2 + cellPad, boxY + l.yOffsets[idx]);
         });
-        if (i === 0) curY2 += 1.5;
       });
 
       y = boxY + boxH + 4;
