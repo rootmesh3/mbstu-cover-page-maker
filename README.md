@@ -1,5 +1,6 @@
 <p align="center">
-  <img src="media/mbstu-logo.jpg" alt="Mawlana Bhashani Science and Technology University (MBSTU) Logo" width="130" />
+  <img src="media/mbstu-logo.jpg" alt="Mawlana Bhashani Science and Technology University (MBSTU) Logo" width="130" style="margin-right: 14px;" />
+  <img src="media/mbstu-cover-badge.png" alt="MBSTU Cover Page Generator Badge" width="130" style="margin-left: 14px; border-radius: 12px;" />
 </p>
 
 <h1 align="center">MBSTU Cover Page Generator</h1>
